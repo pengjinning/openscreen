@@ -9,6 +9,7 @@ import type { DesktopCapturerSource } from "electron";
 import {
 	app,
 	BrowserWindow,
+	clipboard,
 	desktopCapturer,
 	dialog,
 	ipcMain,
@@ -1257,6 +1258,24 @@ async function loadRecordedSessionForVideoPath(
 	}
 }
 
+// Single-flight probe: concurrent permission polls share one desktopCapturer
+// request so stacked callers don't fire multiple TCC prompts.
+let screenCaptureAccessProbe: Promise<void> | null = null;
+
+function probeScreenCaptureAccess(): Promise<void> {
+	if (!screenCaptureAccessProbe) {
+		screenCaptureAccessProbe = desktopCapturer
+			.getSources({ types: ["screen"], thumbnailSize: { width: 1, height: 1 } })
+			.catch(() => {
+				// Permission probing failure is reported by the explicit status check.
+			})
+			.then(() => {
+				screenCaptureAccessProbe = null;
+			});
+	}
+	return screenCaptureAccessProbe;
+}
+
 export function registerIpcHandlers(
 	createEditorWindow: () => void,
 	createSourceSelectorWindow: () => BrowserWindow,
@@ -1273,31 +1292,29 @@ export function registerIpcHandlers(
 		}
 
 		try {
-			const status = systemPreferences.getMediaAccessStatus("screen");
+			let status = systemPreferences.getMediaAccessStatus("screen");
 			if (status === "granted") {
 				return { success: true, granted: true, status };
 			}
 
 			// Screen recording has no askForMediaAccess equivalent, so trigger the
 			// TCC prompt without opening OpenScreen's source selector above it.
-			if (status === "not-determined") {
-				const mainWin = getMainWindow();
-				if (mainWin && !mainWin.isDestroyed()) {
-					if (!mainWin.isVisible()) {
-						mainWin.show();
-					}
-					mainWin.focus();
+			// macOS reports "never asked" and "denied" identically (both surface
+			// as "denied"), and an app is only listed under System Settings →
+			// Screen Recording after it actually requests access. Probe in every
+			// non-granted state so the system prompt fires and the app registers;
+			// previously-denied probes just fail fast without any UI.
+			const mainWin = getMainWindow();
+			if (mainWin && !mainWin.isDestroyed()) {
+				if (!mainWin.isVisible()) {
+					mainWin.show();
 				}
-				app.focus({ steal: true });
-				desktopCapturer
-					.getSources({ types: ["screen"], thumbnailSize: { width: 1, height: 1 } })
-					.catch(() => {
-						// Permission probing failure is reported by the explicit status check below.
-					});
-				return { success: true, granted: false, status: "not-determined" };
+				mainWin.focus();
 			}
-
-			return { success: true, granted: false, status };
+			app.focus({ steal: true });
+			await probeScreenCaptureAccess();
+			status = systemPreferences.getMediaAccessStatus("screen");
+			return { success: true, granted: status === "granted", status };
 		} catch (error) {
 			console.error("Failed to request screen access:", error);
 			return { success: false, granted: false, status: "unknown", error: String(error) };
@@ -1392,7 +1409,7 @@ export function registerIpcHandlers(
 			const mainWin = getMainWindow();
 			const detail =
 				access.status === "missing-helper"
-					? "The cursor helper couldn't be found in this build, so the editable cursor can't be enabled. Rebuild the native helper (npm run build:native:mac) or switch the HUD cursor mode to system."
+					? "The cursor helper couldn't be found in this build, so the editable cursor can't be enabled. Rebuild the native helper (pnpm run build:native:mac) or switch the HUD cursor mode to system."
 					: "Allow OpenScreen under System Settings → Privacy & Security → Accessibility, then press record again to start the countdown.";
 			const messageOptions = {
 				type: "warning",
@@ -1421,14 +1438,28 @@ export function registerIpcHandlers(
 		if (!access.granted) {
 			if (process.platform === "darwin" && access.status !== "not-determined") {
 				const mainWin = getMainWindow();
+				let detail: string;
+				if (app.isPackaged) {
+					detail =
+						"Allow OpenScreen in macOS System Settings, then quit and reopen this app and choose a screen or window.";
+				} else {
+					// macOS attributes a dev Electron process's TCC requests to its
+					// "responsible process" — the app whose terminal launched it (VS
+					// Code, Terminal, iTerm...), not Electron itself. Granting the
+					// Electron bundle alone has no effect on `pnpm dev` runs, so point
+					// users at the launcher app. Keep the Electron path on the clipboard
+					// for the rare case where Electron is launched directly (e.g. `open`).
+					const electronAppBundlePath = path.dirname(path.dirname(path.dirname(process.execPath)));
+					clipboard.writeText(electronAppBundlePath);
+					detail = `Dev runs inherit this permission from the app that launched them. Open System Settings → Privacy & Security → Screen Recording and enable the app whose terminal you ran the dev server from (Visual Studio Code, Terminal, ...). Add it via "+" if it is missing, then fully quit and reopen that app and start the dev server again.\n(Electron runtime path, already copied to the clipboard: ${electronAppBundlePath})`;
+				}
 				const messageOptions = {
 					type: "warning",
 					buttons: ["Open System Settings", "Cancel"],
 					defaultId: 0,
 					cancelId: 1,
 					message: "Screen Recording permission is required",
-					detail:
-						"Allow OpenScreen in macOS System Settings, then come back and choose a screen or window.",
+					detail,
 				} satisfies Electron.MessageBoxOptions;
 				const result =
 					mainWin && !mainWin.isDestroyed()

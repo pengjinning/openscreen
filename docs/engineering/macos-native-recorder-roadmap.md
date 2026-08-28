@@ -193,12 +193,12 @@ Acceptance:
 
 ### 8. Test Pipeline
 
-- `npm run build:native:mac`: builds Swift helper binaries on macOS.
-- `npm run test:sck-helper:mac`: display-only helper smoke test.
-- `npm run test:sck-window:mac`: window capture smoke test.
-- `npm run test:sck-audio:mac`: system audio smoke test when supported.
-- `npm run test:sck-mic:mac`: microphone smoke test.
-- `npm run test:sck-webcam:mac`: webcam smoke test when a webcam is available.
+- `pnpm run build:native:mac`: builds Swift helper binaries on macOS.
+- `pnpm run test:sck-helper:mac`: display-only helper smoke test.
+- `pnpm run test:sck-window:mac`: window capture smoke test.
+- `pnpm run test:sck-audio:mac`: system audio smoke test when supported.
+- `pnpm run test:sck-mic:mac`: microphone smoke test.
+- `pnpm run test:sck-webcam:mac`: webcam smoke test when a webcam is available.
 - Packaging check: confirms helpers are available under `electron/native/bin/darwin-${arch}` in packaged builds.
 
 ## SSOT Rules

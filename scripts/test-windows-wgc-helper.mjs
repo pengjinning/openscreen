@@ -223,7 +223,7 @@ if (process.platform !== "win32") {
 }
 
 if (!fs.existsSync(HELPER_PATH)) {
-	throw new Error(`WGC helper not found at ${HELPER_PATH}. Run npm run build:native:win first.`);
+	throw new Error(`WGC helper not found at ${HELPER_PATH}. Run pnpm run build:native:win first.`);
 }
 
 const outputPath = path.join(

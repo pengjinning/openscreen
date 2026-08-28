@@ -41,6 +41,9 @@ const ICON_SIZE = 20;
 const HUD_DEVICE_POPUP_GAP = 28;
 // Horizontal layout: mirrors the `bottom-[68px]` class on the popup element.
 const HUD_DEVICE_POPUP_HORIZONTAL_BOTTOM = 68;
+// System-language prompt: anchored this many px below the window's top edge.
+// Mirrors the inline `top` style on the prompt element.
+const SYSTEM_LANGUAGE_PROMPT_TOP_OFFSET = 32;
 
 const ICON_CONFIG = {
 	drag: { icon: RxDragHandleDots2, size: ICON_SIZE },
@@ -145,6 +148,7 @@ export function LaunchWindow() {
 	const [supportsCursorModeToggle, setSupportsCursorModeToggle] = useState(false);
 	const languageTriggerRef = useRef<HTMLButtonElement | null>(null);
 	const languageMenuPanelRef = useRef<HTMLDivElement | null>(null);
+	const systemLanguagePromptRef = useRef<HTMLDivElement | null>(null);
 	const hudBarRef = useRef<HTMLDivElement | null>(null);
 	const deviceSelectorRef = useRef<HTMLDivElement | null>(null);
 	// Measured bar height, anchors the popups above the tall vertical tray so they don't overlap it.
@@ -353,8 +357,21 @@ export function LaunchWindow() {
 			return Math.abs(prev - next) > 1 ? next : prev;
 		});
 
+		// The system-language prompt is top-anchored (unlike the bottom-anchored popups
+		// above), so also fit the window to its full box — the native window bounds clip
+		// anything beyond them, which hides the prompt's buttons. Use offsetHeight (layout
+		// size): the prompt's zoom-in entry animation is a transform, which
+		// getBoundingClientRect would misread and ResizeObserver cannot re-fire.
+		let height = Math.ceil(topFromBottom) + TOP_MARGIN;
+		const promptEl = systemLanguagePromptRef.current;
+		if (promptEl && promptEl.offsetHeight > 0) {
+			height = Math.max(
+				height,
+				SYSTEM_LANGUAGE_PROMPT_TOP_OFFSET + promptEl.offsetHeight + TOP_MARGIN,
+			);
+		}
+
 		const width = Math.max(MIN_WIDTH, Math.ceil(halfWidth * 2) + SIDE_MARGIN);
-		const height = Math.ceil(topFromBottom) + TOP_MARGIN;
 		if (width === lastHudSizeRef.current.width && height === lastHudSizeRef.current.height) {
 			return;
 		}
@@ -397,6 +414,10 @@ export function LaunchWindow() {
 	);
 	const setLanguageMenuPanelEl = useCallback(
 		(el: HTMLDivElement | null) => observeHudElement(el, languageMenuPanelRef),
+		[observeHudElement],
+	);
+	const setSystemLanguagePromptEl = useCallback(
+		(el: HTMLDivElement | null) => observeHudElement(el, systemLanguagePromptRef),
 		[observeHudElement],
 	);
 
@@ -518,8 +539,10 @@ export function LaunchWindow() {
 		>
 			{systemLocaleSuggestion && (
 				<div
+					ref={setSystemLanguagePromptEl}
 					data-hud-interactive="true"
-					className={`fixed top-8 left-1/2 z-30 w-[calc(100vw-1rem)] max-w-[520px] -translate-x-1/2 rounded-xl border border-white/15 bg-[rgba(20,20,28,0.95)] p-3 shadow-2xl backdrop-blur-xl text-white animate-in fade-in-0 zoom-in-95 duration-200 ${styles.electronNoDrag}`}
+					style={{ top: SYSTEM_LANGUAGE_PROMPT_TOP_OFFSET }}
+					className={`fixed left-1/2 z-50 w-[calc(100vw-1rem)] max-w-[520px] -translate-x-1/2 rounded-xl border border-white/15 bg-[rgba(20,20,28,0.95)] p-3 shadow-2xl backdrop-blur-xl text-white animate-in fade-in-0 zoom-in-95 duration-200 ${styles.electronNoDrag}`}
 				>
 					<div className="text-[13px] font-semibold text-white">
 						{t("systemLanguagePrompt.title")}

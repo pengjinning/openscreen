@@ -7,7 +7,7 @@ This project uses [Vitest](https://vitest.dev/) for both unit/integration tests 
 **Config:** `vitest.config.ts`  
 **Runs in:** jsdom (simulated DOM, no real browser)  
 **File pattern:** `src/**/*.test.ts` — anything that does **not** end in `.browser.test.ts`  
-**CI command:** `npm run test`
+**CI command:** `pnpm run test`
 
 Use unit tests for pure logic, utility functions, data transformations, and anything that doesn't need real browser APIs (Canvas, WebCodecs, MediaRecorder, etc.).
 
@@ -54,8 +54,8 @@ import { SUPPORTED_LOCALES } from "@/i18n/config";
 ### Running locally
 
 ```bash
-npm run test          # run once
-npm run test:watch    # watch mode
+pnpm run test          # run once
+pnpm run test:watch    # watch mode
 ```
 
 ---
@@ -65,7 +65,7 @@ npm run test:watch    # watch mode
 **Config:** `vitest.browser.config.ts`  
 **Runs in:** real Chromium via Playwright (headless)  
 **File pattern:** `src/**/*.browser.test.ts`  
-**CI commands:** `npm run test:browser:install` then `npm run test:browser`
+**CI commands:** `pnpm run test:browser:install` then `pnpm run test:browser`
 
 Use browser tests when the code under test depends on real browser APIs that jsdom doesn't implement: `VideoDecoder`, `VideoEncoder`, `MediaRecorder`, `OffscreenCanvas`, `WebGL`, etc.
 
@@ -126,13 +126,13 @@ Browser tests have a default timeout of 120 seconds per test and 30 seconds per 
 First install the browser (one-time):
 
 ```bash
-npm run test:browser:install
+pnpm run test:browser:install
 ```
 
 Then run the tests:
 
 ```bash
-npm run test:browser
+pnpm run test:browser
 ```
 
 ---

@@ -20,7 +20,7 @@ The macOS cursor-shape helper is resolved from `OPENSCREEN_MAC_CURSOR_HELPER_EXE
 Build the macOS helper with:
 
 ```bash
-npm run build:native:mac
+pnpm run build:native:mac
 ```
 
 On non-macOS hosts this command exits successfully and does not affect Windows/Linux development. On macOS it builds the Swift package at `electron/native/screencapturekit`, writes the development binaries to `electron/native/screencapturekit/build`, and copies redistributable binaries to `electron/native/bin/darwin-${arch}`.
@@ -43,7 +43,7 @@ Windows native recording is resolved from one of these locations:
 Build the Windows helper with:
 
 ```powershell
-npm run build:native:win
+pnpm run build:native:win
 ```
 
 The build writes the CMake output to `electron/native/wgc-capture/build/wgc-capture.exe` and copies the redistributable binary to `electron/native/bin/win32-x64/wgc-capture.exe`.
@@ -86,19 +86,19 @@ The current helper implementation supports display/window video capture, system 
 Smoke-test the helper with:
 
 ```powershell
-npm run test:wgc-helper:win
-npm run test:wgc-window:win
-npm run test:wgc-audio:win
-npm run test:wgc-mic:win
-npm run test:wgc-mixed-audio:win
-npm run test:wgc-webcam:win
+pnpm run test:wgc-helper:win
+pnpm run test:wgc-window:win
+pnpm run test:wgc-audio:win
+pnpm run test:wgc-mic:win
+pnpm run test:wgc-mixed-audio:win
+pnpm run test:wgc-webcam:win
 ```
 
 To validate a specific native webcam manually:
 
 ```powershell
 $env:OPENSCREEN_WGC_TEST_WEBCAM_DEVICE_NAME = "NVIDIA Broadcast"
-npm run test:wgc-webcam:win
+pnpm run test:wgc-webcam:win
 Remove-Item Env:OPENSCREEN_WGC_TEST_WEBCAM_DEVICE_NAME
 ```
 
@@ -106,6 +106,6 @@ To validate a specific native microphone manually:
 
 ```powershell
 $env:OPENSCREEN_WGC_TEST_MICROPHONE_DEVICE_NAME = "Microphone (NVIDIA Broadcast)"
-npm run test:wgc-mic:win
+pnpm run test:wgc-mic:win
 Remove-Item Env:OPENSCREEN_WGC_TEST_MICROPHONE_DEVICE_NAME
 ```

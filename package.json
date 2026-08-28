@@ -3,10 +3,10 @@
 	"private": true,
 	"version": "1.5.0",
 	"type": "module",
-	"packageManager": "npm@10.9.4",
+	"packageManager": "pnpm@10.33.0",
 	"engines": {
 		"node": "22.22.1",
-		"npm": "10.9.4"
+		"pnpm": ">=10.33.0"
 	},
 	"author": {
 		"name": "Sid",
@@ -21,9 +21,9 @@
 		"i18n:check": "node scripts/i18n-check.mjs",
 		"preview": "vite preview",
 		"build:native:mac": "node scripts/build-macos-screencapturekit-helper.mjs",
-		"build:mac": "npm run build:native:mac && tsc && vite build && electron-builder --mac",
+		"build:mac": "pnpm run build:native:mac && tsc && vite build && electron-builder --mac",
 		"build:native:win": "node scripts/build-windows-wgc-helper.mjs",
-		"build:win": "npm run build:native:win && tsc && vite build && electron-builder --win --config.npmRebuild=false",
+		"build:win": "pnpm run build:native:win && tsc && vite build && electron-builder --win --config.npmRebuild=false",
 		"build:linux": "tsc && vite build && electron-builder --linux AppImage deb pacman --config.npmRebuild=false",
 		"test": "vitest --run",
 		"test:watch": "vitest",
@@ -42,6 +42,7 @@
 		"test:browser:install": "playwright install --with-deps chromium-headless-shell",
 		"test:e2e": "playwright test",
 		"test:e2e:windows-native-checklist": "playwright test tests/e2e/windows-native-checklist.spec.ts",
+		"preinstall": "npx only-allow pnpm",
 		"prepare": "husky"
 	},
 	"dependencies": {

@@ -40,7 +40,7 @@ xcuserdata/
 release/**
 *.kiro/
 .claude/
-# npx electron-builder --mac --win
+# pnpm exec electron-builder --mac --win
 
 # Playwright
 test-results

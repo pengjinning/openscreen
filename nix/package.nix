@@ -33,6 +33,11 @@ buildNpmPackage {
       );
     };
 
+  # NOTE: the project has migrated to pnpm (pnpm-lock.yaml), but Nix still builds with
+  # buildNpmPackage, so package-lock.json is kept solely for this expression. After
+  # changing dependencies, resync it with
+  # `npm install --package-lock-only --ignore-scripts` and update this hash
+  # (e.g. via `nix run nixpkgs#prefetch-npm-deps -- package-lock.json`).
   npmDepsHash = "sha256-lx38H0qG5IrjQRekLG2N+x90Zq/emPfbxOo/qDSn7iE=";
 
   env.ELECTRON_SKIP_BINARY_DOWNLOAD = "1";

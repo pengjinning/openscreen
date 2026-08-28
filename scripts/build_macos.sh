@@ -98,12 +98,12 @@ print_ok "Clean complete"
 
 # ── Install Dependencies ─────────────────────────────────────────────
 print_step "Installing dependencies..."
-npm ci
+pnpm install --frozen-lockfile
 print_ok "Dependencies installed"
 
 # ── Build Vite + Electron ────────────────────────────────────────────
 print_step "Building Vite + Electron... (this may take a minute)"
-npx tsc && npx vite build
+pnpm exec tsc && pnpm exec vite build
 print_ok "Vite + Electron build complete"
 
 # ── Package, Sign, Notarize per Architecture ─────────────────────────
@@ -118,7 +118,7 @@ for ARCH in "${ARCHS[@]}"; do
 
     # Build .app only (--dir), electron-builder handles codesigning
     # with hardenedRuntime + entitlements from electron-builder.json5
-    CSC_NAME="$CSC_NAME" npx electron-builder --mac --${ARCH} --dir
+    CSC_NAME="$CSC_NAME" pnpm exec electron-builder --mac --${ARCH} --dir
 
     # Find the .app bundle
     APP_BUNDLE=$(find "${RELEASE_DIR}" -maxdepth 2 -name "*.app" -type d | grep -i "${ARCH}\|mac" | head -n1)

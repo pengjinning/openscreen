@@ -132,7 +132,7 @@ for (const { swift, tag } of archs) {
 			process.exit(1);
 		}
 		// Always place it in the arch's bin folder; mirror the host-arch build into the dev build
-		// dir so `npm run dev` (candidate path #2) can spawn it.
+		// dir so `pnpm run dev` (candidate path #2) can spawn it.
 		const dests = [path.join(targetDir, name)];
 		if (swift === hostArch) dests.push(localPath);
 		for (const dest of dests) {

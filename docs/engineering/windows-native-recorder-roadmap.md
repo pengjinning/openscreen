@@ -167,7 +167,7 @@ Acceptance:
 Acceptance:
 
 - Native display/window recordings can include webcam without returning to Electron capture.
-- `npm run test:wgc-webcam:win` validates the helper path when a webcam is available and skips explicitly when no webcam device exists.
+- `pnpm run test:wgc-webcam:win` validates the helper path when a webcam is available and skips explicitly when no webcam device exists.
 - Combined webcam + system audio + microphone produces one MP4 with H.264 video and AAC audio.
 
 ### 5. Native Window Capture
@@ -197,14 +197,14 @@ Acceptance:
 
 ### 7. Test Pipeline
 
-- `npm run test:wgc-helper:win`: display-only helper smoke test.
-- `npm run test:wgc-audio:win`: validates AAC track presence and duration.
-- `npm run test:wgc-window:win`: captures a fixture window by HWND.
-- `npm run test:wgc-webcam:win`: validates webcam output when a webcam is available, otherwise skips explicitly.
+- `pnpm run test:wgc-helper:win`: display-only helper smoke test.
+- `pnpm run test:wgc-audio:win`: validates AAC track presence and duration.
+- `pnpm run test:wgc-window:win`: captures a fixture window by HWND.
+- `pnpm run test:wgc-webcam:win`: validates webcam output when a webcam is available, otherwise skips explicitly.
 - Packaging check: confirms the helper is in `app.asar.unpacked`.
 - Export check: exported MP4s generated from native recordings keep an AAC audio track when the source has audio.
-- `npm run test:wgc-mic:win`: validates default-microphone capture writes an AAC track when an input endpoint is available.
-- `npm run test:wgc-mixed-audio:win`: validates system loopback plus microphone writes one mixed AAC track when endpoint formats are compatible.
+- `pnpm run test:wgc-mic:win`: validates default-microphone capture writes an AAC track when an input endpoint is available.
+- `pnpm run test:wgc-mixed-audio:win`: validates system loopback plus microphone writes one mixed AAC track when endpoint formats are compatible.
 
 ## Backlog
 
@@ -224,7 +224,7 @@ What has already been tried:
 - Added polling-based left-button state through `GetAsyncKeyState`.
 - Added the `GetAsyncKeyState` low-bit path to catch quick clicks between samples.
 - Added a PowerShell/C# `WH_MOUSE_LL` mouse hook experiment and launched the sampler through a temporary `.ps1` file to avoid Windows command-line length limits.
-- Updated `npm run test:cursor-native:win` so the diagnostic can observe a synthetic short click and emit `clickSampleCount`.
+- Updated `pnpm run test:cursor-native:win` so the diagnostic can observe a synthetic short click and emit `clickSampleCount`.
 
 Current diagnosis:
 

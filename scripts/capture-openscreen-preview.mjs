@@ -35,7 +35,7 @@ function findLatestCursorRecordingData() {
 
 	if (!candidates[0]) {
 		throw new Error(
-			"No cursor-recording-data.json found. Run npm run test:cursor-native:win first.",
+			"No cursor-recording-data.json found. Run pnpm run test:cursor-native:win first.",
 		);
 	}
 
@@ -65,10 +65,10 @@ function findPlaywrightChromiumExecutable(defaultPath) {
 
 function ensureBuildExists() {
 	if (!fs.existsSync(MAIN_JS)) {
-		throw new Error(`Missing ${MAIN_JS}. Run npm run build-vite first.`);
+		throw new Error(`Missing ${MAIN_JS}. Run pnpm run build-vite first.`);
 	}
 	if (!fs.existsSync(path.join(ROOT, "dist", "index.html"))) {
-		throw new Error(`Missing renderer build. Run npm run build-vite first.`);
+		throw new Error(`Missing renderer build. Run pnpm run build-vite first.`);
 	}
 }
 
@@ -79,14 +79,14 @@ function runNpmBuildViteIfRequested() {
 	}
 
 	return new Promise((resolve, reject) => {
-		const child = spawn("cmd.exe", ["/d", "/s", "/c", "npm run build-vite"], {
+		const child = spawn("cmd.exe", ["/d", "/s", "/c", "pnpm run build-vite"], {
 			cwd: ROOT,
 			stdio: "inherit",
 		});
 		child.once("error", reject);
 		child.once("exit", (code) => {
 			if (code === 0) resolve();
-			else reject(new Error(`npm run build-vite failed with code ${code}`));
+			else reject(new Error(`pnpm run build-vite failed with code ${code}`));
 		});
 	});
 }

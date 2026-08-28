@@ -25,7 +25,7 @@ Each sample line is newline-delimited JSON:
 ## Build the helper
 
 ```bash
-npm run build:native:mac
+pnpm run build:native:mac
 ```
 
 This builds both Swift helpers (`openscreen-screencapturekit-helper` and `openscreen-macos-cursor-helper`) and copies them to:
@@ -70,7 +70,7 @@ Move the cursor over a text input while the helper is running and check that a n
 
 ```bash
 export OPENSCREEN_MAC_CURSOR_HELPER_EXE=/path/to/openscreen-macos-cursor-helper
-npm run dev
+pnpm run dev
 ```
 
 ## macOS permissions
@@ -166,18 +166,18 @@ Current native availability rules:
 Build both helpers locally:
 
 ```bash
-npm run build:native:mac
+pnpm run build:native:mac
 ```
 
 For local diagnostics with a custom helper binary, use the environment override:
 
 ```bash
 export OPENSCREEN_MAC_CURSOR_HELPER_EXE=/path/to/openscreen-macos-cursor-helper
-npm run dev
+pnpm run dev
 ```
 
 ## Known limitations
 
-- **Intel (x86\_64) Macs**: the distributed helper is built for `darwin-arm64`. On Intel Macs, you need to build from source with `npm run build:native:mac` on the target machine.
+- **Intel (x86\_64) Macs**: the distributed helper is built for `darwin-arm64`. On Intel Macs, you need to build from source with `pnpm run build:native:mac` on the target machine.
 - **Accessibility permission in unsigned/dev builds**: `getMediaAccessStatus("accessibility")` may not reflect the toggle state for unsigned Electron in dev mode. The helper will always probe and report `accessibilityTrusted` in its `ready` event — use that as the authoritative signal.
 - **App-defined custom cursors (CGS layer)**: `NSCursor.currentSystem` captures the active AppKit cursor. Cursors set at the CoreGraphics/CGS layer by some games or GPU-accelerated apps may not be visible here. This is a known macOS API limitation.

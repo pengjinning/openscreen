@@ -125,7 +125,9 @@ async function copyOrtWasm() {
 		const src = path.join(distDir, name);
 		const dest = path.join(ortOut, name);
 		if (!(await exists(src))) {
-			throw new Error(`Missing ${src} — is @xenova/transformers installed? Run npm ci first.`);
+			throw new Error(
+				`Missing ${src} — is @xenova/transformers installed? Run pnpm install first.`,
+			);
 		}
 		if (await exists(dest)) {
 			console.log(`  ✓ cached  ort/${name}`);

@@ -2486,12 +2486,10 @@ export default function VideoEditor() {
 				className="h-11 flex-shrink-0 bg-[#070809]/85 backdrop-blur-xl border-b border-white/[0.07] flex items-center justify-between px-5 z-50 shadow-[0_1px_0_rgba(255,255,255,0.03)]"
 				style={{ WebkitAppRegion: "drag" } as CSSProperties}
 			>
-				<div
-					className="flex-1 flex items-center gap-1"
-					style={{ WebkitAppRegion: "no-drag" } as CSSProperties}
-				>
+				<div className="flex-1 flex items-center gap-1">
 					<div
 						className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-white/50 hover:text-white/90 hover:bg-white/[0.08] transition-all duration-150 ${isMac ? "ml-14" : "ml-2"}`}
+						style={{ WebkitAppRegion: "no-drag" } as CSSProperties}
 					>
 						<Languages size={14} />
 						<select
@@ -2511,6 +2509,7 @@ export default function VideoEditor() {
 						type="button"
 						onClick={() => setShowNewRecordingDialog(true)}
 						className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-white/50 hover:text-white/90 hover:bg-white/[0.08] transition-all duration-150 text-[11px] font-medium"
+						style={{ WebkitAppRegion: "no-drag" } as CSSProperties}
 					>
 						<Video size={14} />
 						{t("newRecording.title")}
@@ -2519,6 +2518,7 @@ export default function VideoEditor() {
 						type="button"
 						onClick={handleLoadProject}
 						className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-white/50 hover:text-white/90 hover:bg-white/[0.08] transition-all duration-150 text-[11px] font-medium"
+						style={{ WebkitAppRegion: "no-drag" } as CSSProperties}
 					>
 						<FolderOpen size={14} />
 						{ts("project.load")}
@@ -2527,6 +2527,7 @@ export default function VideoEditor() {
 						type="button"
 						onClick={handleSaveProject}
 						className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-white/50 hover:text-white/90 hover:bg-white/[0.08] transition-all duration-150 text-[11px] font-medium"
+						style={{ WebkitAppRegion: "no-drag" } as CSSProperties}
 					>
 						<Save size={14} />
 						{ts("project.save")}

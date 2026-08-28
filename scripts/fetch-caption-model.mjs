@@ -7,7 +7,14 @@
 //
 // Idempotent: existing non-empty files are left alone, so re-runs and CI cache hits are no-ops.
 // `caption-assets/` is gitignored and shipped via electron-builder `extraResources`.
+//
+// Knobs for restricted networks (e.g. where huggingface.co is unreachable):
+//   HF_ENDPOINT — override the HuggingFace base URL, e.g. https://hf-mirror.com
+//                 (same convention as huggingface_hub).
+//   *_proxy     — when http(s)_proxy/all_proxy is set, the script re-execs itself with
+//                 NODE_USE_ENV_PROXY=1 so Node's fetch actually routes through the proxy.
 
+import { spawnSync } from "node:child_process";
 import { createWriteStream } from "node:fs";
 import { copyFile, mkdir, stat } from "node:fs/promises";
 import path from "node:path";
@@ -18,7 +25,8 @@ import { fileURLToPath } from "node:url";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "caption-assets");
 const MODEL_ID = "Xenova/whisper-tiny";
-const HF_BASE = `https://huggingface.co/${MODEL_ID}/resolve/main`;
+const HF_ENDPOINT = (process.env.HF_ENDPOINT ?? "https://huggingface.co").replace(/\/+$/, "");
+const HF_BASE = `${HF_ENDPOINT}/${MODEL_ID}/resolve/main`;
 
 // Small config/tokenizer/preprocessor files plus the quantized ONNX the ASR pipeline loads by
 // default (encoder + merged decoder). Grab every metadata file so transformers never requests
@@ -49,6 +57,28 @@ async function exists(filePath) {
 }
 
 const MAX_ATTEMPTS = 6;
+
+// Node's built-in fetch ignores *_proxy env vars unless NODE_USE_ENV_PROXY=1 was set at process
+// startup, so merely exporting http_proxy changes nothing. When proxy vars are present, re-exec
+// ourselves once with the flag so downloads actually go through the proxy; without proxy vars
+// (CI) this is a no-op.
+const PROXY_ENV_KEYS = [
+	"http_proxy",
+	"https_proxy",
+	"all_proxy",
+	"HTTP_PROXY",
+	"HTTPS_PROXY",
+	"ALL_PROXY",
+];
+
+function execSelfWithEnvProxy() {
+	console.log("  ↻ proxy env detected, re-running with NODE_USE_ENV_PROXY=1");
+	const result = spawnSync(process.execPath, [process.argv[1]], {
+		stdio: "inherit",
+		env: { ...process.env, NODE_USE_ENV_PROXY: "1" },
+	});
+	process.exit(result.status ?? 1);
+}
 // HuggingFace rate-limits (429) when the parallel CI matrix builds all hit it at once; also retry the
 // usual transient server errors.
 const RETRYABLE_STATUS = new Set([408, 425, 429, 500, 502, 503, 504]);
@@ -139,6 +169,9 @@ async function copyOrtWasm() {
 }
 
 async function main() {
+	if (process.env.NODE_USE_ENV_PROXY !== "1" && PROXY_ENV_KEYS.some((key) => process.env[key])) {
+		execSelfWithEnvProxy();
+	}
 	console.log(`Fetching caption assets → ${path.relative(ROOT, OUT)}/`);
 	console.log("ONNX Runtime wasm:");
 	await copyOrtWasm();

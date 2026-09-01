@@ -182,6 +182,9 @@ contextBridge.exposeInMainWorld("electronAPI", {
 	loadProjectFileFromPath: (filePath: string) => {
 		return ipcRenderer.invoke("load-project-file-from-path", filePath);
 	},
+	saveProjectFileSilent: (projectData: unknown, targetPath: string) => {
+		return ipcRenderer.invoke("save-project-file-silent", projectData, targetPath);
+	},
 	getPathForFile: (file: File) => {
 		try {
 			return webUtils.getPathForFile(file);

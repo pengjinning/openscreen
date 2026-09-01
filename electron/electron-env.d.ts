@@ -260,6 +260,15 @@ interface Window {
 			canceled?: boolean;
 			error?: string;
 		}>;
+		saveProjectFileSilent: (
+			projectData: unknown,
+			targetPath: string,
+		) => Promise<{
+			success: boolean;
+			path?: string;
+			message?: string;
+			error?: string;
+		}>;
 		onMenuNewProject: (callback: () => void) => () => void;
 		onMenuImportVideo: (callback: () => void) => () => void;
 		onMenuLoadProject: (callback: () => void) => () => void;

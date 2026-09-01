@@ -87,6 +87,7 @@ import {
 	fromFileUrl,
 	hasProjectUnsavedChanges,
 	normalizeProjectEditor,
+	projectPathForVideo,
 	resolveProjectMedia,
 	toFileUrl,
 	validateProjectData,
@@ -638,84 +639,19 @@ export default function VideoEditor() {
 		saveUserPreferences({ padding, aspectRatio, exportQuality, exportFormat });
 	}, [prefsHydrated, padding, aspectRatio, exportQuality, exportFormat]);
 
-	const saveProject = useCallback(
-		async (forceSaveAs: boolean) => {
-			if (!videoPath) {
-				toast.error(t("errors.noVideoLoaded"));
-				return false;
-			}
+	// Builds the serializable project payload plus the normalized snapshot used
+	// for both manual saves and the sidebar's silent auto-save. Shared so the two
+	// paths can never diverge.
+	const buildProjectPayload = useCallback((): {
+		projectData: ReturnType<typeof createProjectData>;
+		projectSnapshot: string;
+		fileNameBase: string;
+	} | null => {
+		if (!currentProjectMedia) {
+			return null;
+		}
 
-			if (!currentProjectMedia) {
-				toast.error(t("errors.unableToDetermineSourcePath"));
-				return false;
-			}
-
-			const editorState = {
-				wallpaper,
-				shadowIntensity,
-				showBlur,
-				showTrimWaveform,
-				motionBlurAmount,
-				borderRadius,
-				padding,
-				cropRegion,
-				zoomRegions,
-				autoZoomEnabled,
-				autoFocusAll,
-				trimRegions,
-				speedRegions,
-				annotationRegions,
-				aspectRatio,
-				webcamLayoutPreset,
-				webcamMaskShape,
-				webcamMirrored,
-				webcamReactiveZoom,
-				webcamSizePreset,
-				webcamPosition,
-				exportQuality,
-				exportFormat,
-				gifFrameRate,
-				gifLoop,
-				gifSizePreset,
-				cursorTheme,
-			};
-			const projectData = createProjectData(currentProjectMedia, editorState);
-
-			const fileNameBase =
-				currentProjectMedia.screenVideoPath
-					.split(/[\\/]/)
-					.pop()
-					?.replace(/\.[^.]+$/, "") || `project-${Date.now()}`;
-			// Normalize the same way as currentProjectSnapshot so the post-save
-			// baseline compares equal and hasUnsavedChanges clears.
-			const projectSnapshot = createProjectSnapshot(currentProjectMedia, editorState);
-			const result = await nativeBridgeClient.project.saveProjectFile(
-				projectData,
-				fileNameBase,
-				forceSaveAs ? undefined : (currentProjectPath ?? undefined),
-			);
-
-			if (result.canceled) {
-				toast.info(t("project.saveCanceled"));
-				return false;
-			}
-
-			if (!result.success) {
-				toast.error(result.message || t("project.failedToSave"));
-				return false;
-			}
-
-			if (result.path) {
-				setCurrentProjectPath(result.path);
-			}
-			setLastSavedSnapshot(projectSnapshot);
-
-			toast.success(t("project.savedTo", { path: result.path ?? "" }));
-			return true;
-		},
-		[
-			currentProjectMedia,
-			currentProjectPath,
+		const editorState = {
 			wallpaper,
 			shadowIntensity,
 			showBlur,
@@ -743,9 +679,89 @@ export default function VideoEditor() {
 			gifLoop,
 			gifSizePreset,
 			cursorTheme,
-			videoPath,
-			t,
-		],
+		};
+
+		const fileNameBase =
+			currentProjectMedia.screenVideoPath
+				.split(/[\\/]/)
+				.pop()
+				?.replace(/\.[^.]+$/, "") || `project-${Date.now()}`;
+		// Normalize the same way as currentProjectSnapshot so the post-save
+		// baseline compares equal and hasUnsavedChanges clears.
+		return {
+			projectData: createProjectData(currentProjectMedia, editorState),
+			projectSnapshot: createProjectSnapshot(currentProjectMedia, editorState),
+			fileNameBase,
+		};
+	}, [
+		currentProjectMedia,
+		wallpaper,
+		shadowIntensity,
+		showBlur,
+		showTrimWaveform,
+		motionBlurAmount,
+		borderRadius,
+		padding,
+		cropRegion,
+		zoomRegions,
+		autoZoomEnabled,
+		autoFocusAll,
+		trimRegions,
+		speedRegions,
+		annotationRegions,
+		aspectRatio,
+		webcamLayoutPreset,
+		webcamMaskShape,
+		webcamMirrored,
+		webcamReactiveZoom,
+		webcamSizePreset,
+		webcamPosition,
+		exportQuality,
+		exportFormat,
+		gifFrameRate,
+		gifLoop,
+		gifSizePreset,
+		cursorTheme,
+	]);
+
+	const saveProject = useCallback(
+		async (forceSaveAs: boolean) => {
+			if (!videoPath) {
+				toast.error(t("errors.noVideoLoaded"));
+				return false;
+			}
+
+			const payload = buildProjectPayload();
+			if (!payload) {
+				toast.error(t("errors.unableToDetermineSourcePath"));
+				return false;
+			}
+
+			const result = await nativeBridgeClient.project.saveProjectFile(
+				payload.projectData,
+				payload.fileNameBase,
+				forceSaveAs ? undefined : (currentProjectPath ?? undefined),
+			);
+
+			if (result.canceled) {
+				toast.info(t("project.saveCanceled"));
+				return false;
+			}
+
+			if (!result.success) {
+				toast.error(result.message || t("project.failedToSave"));
+				return false;
+			}
+
+			if (result.path) {
+				setCurrentProjectPath(result.path);
+			}
+			setLastSavedSnapshot(payload.projectSnapshot);
+
+			toast.success(t("project.savedTo", { path: result.path ?? "" }));
+			return true;
+		},
+		[videoPath, buildProjectPayload, currentProjectPath, t],
 	);
 
 	useEffect(() => {
@@ -799,12 +815,30 @@ export default function VideoEditor() {
 		}
 	}, []);
 
-	// Reopens a finalized recording from the sessions sidebar as a fresh
-	// project: editor state resets to initial, unsaved state baseline is set to
-	// the session's media, mirroring the startup session-restore path.
+	// Reopens a finalized recording from the sessions sidebar. If a companion
+	// <recording>.openscreen project exists (created by the sidebar's silent
+	// auto-save), its edits are restored; otherwise the recording opens fresh.
 	const doOpenRecordingSession = useCallback(
 		async (session: RecordingSessionSummary) => {
 			const sourcePath = fromFileUrl(session.screenVideoPath);
+
+			// Prefer restoring saved edits.
+			const savedProjectPath = projectPathForVideo(sourcePath);
+			try {
+				const result = await window.electronAPI.loadProjectFileFromPath(savedProjectPath);
+				if (result.success && result.project) {
+					const restored = await applyLoadedProject(
+						result.project,
+						result.path ?? savedProjectPath,
+					);
+					if (restored) {
+						return;
+					}
+				}
+			} catch {
+				// No readable companion project for this recording; open it fresh.
+			}
+
 			const webcamSourcePath = session.webcamVideoPath
 				? fromFileUrl(session.webcamVideoPath)
 				: null;
@@ -830,6 +864,13 @@ export default function VideoEditor() {
 			setWebcamVideoPath(webcamSourcePath ? toFileUrl(webcamSourcePath) : null);
 			setRecordingCursorCaptureMode(session.cursorCaptureMode ?? null);
 			setCurrentProjectPath(null);
+			// Keep the main process in sync (session manifest restore + clear the
+			// current project path) so the next editor launch reopens this recording
+			// instead of a stale project. Best-effort: a failure only means the next
+			// launch restores the previous project.
+			window.electronAPI.setCurrentVideoPath(sourcePath).catch((syncError) => {
+				console.warn("Failed to sync current video path:", syncError);
+			});
 			setLastSavedSnapshot(
 				createProjectSnapshot(
 					{
@@ -841,19 +882,54 @@ export default function VideoEditor() {
 				),
 			);
 		},
-		[resetState],
+		[resetState, applyLoadedProject],
 	);
+
+	// Persists the current edits without any dialog so sidebar switches stay
+	// frictionless: an already-saved project updates its own file, and a fresh
+	// recording gets a companion <recording>.openscreen inside the recordings
+	// directory. Returns false only when neither is possible (e.g. an imported
+	// video from outside the recordings directory), which keeps the old
+	// save-dialog fallback for that case.
+	const autoSaveCurrentProject = useCallback(async (): Promise<boolean> => {
+		if (currentProjectPath) {
+			return saveProject(false);
+		}
+
+		const payload = buildProjectPayload();
+		if (!payload?.projectData.media?.screenVideoPath) {
+			return false;
+		}
+		const targetPath = projectPathForVideo(payload.projectData.media.screenVideoPath);
+		const result = await window.electronAPI.saveProjectFileSilent(payload.projectData, targetPath);
+		if (!result.success || !result.path) {
+			console.warn("[VideoEditor] Silent auto-save failed:", result.message || result.error);
+			return false;
+		}
+
+		setCurrentProjectPath(result.path);
+		setLastSavedSnapshot(payload.projectSnapshot);
+		toast.success(t("project.savedTo", { path: result.path }));
+		return true;
+	}, [currentProjectPath, buildProjectPayload, saveProject, t]);
 
 	const handleOpenRecordingSession = useCallback(
 		(session: RecordingSessionSummary) => {
-			if (hasUnsavedChanges) {
-				pendingSessionRef.current = session;
-				setConfirmDialogVariant("openSession");
-				return;
-			}
-			void doOpenRecordingSession(session);
+			void (async () => {
+				if (hasUnsavedChanges) {
+					const saved = await autoSaveCurrentProject();
+					if (!saved) {
+						// Foreign sources (e.g. imported videos) can't be silently saved into
+						// the recordings dir; keep the explicit save/discard choice.
+						pendingSessionRef.current = session;
+						setConfirmDialogVariant("openSession");
+						return;
+					}
+				}
+				await doOpenRecordingSession(session);
+			})();
 		},
-		[hasUnsavedChanges, doOpenRecordingSession],
+		[hasUnsavedChanges, autoSaveCurrentProject, doOpenRecordingSession],
 	);
 
 	const handleOpenSessionConfirmSave = useCallback(async () => {

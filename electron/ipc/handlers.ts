@@ -2739,6 +2739,38 @@ export function registerIpcHandlers(
 		},
 	);
 
+	// Dialog-free project save used when switching recordings from the editor
+	// sidebar: edits are persisted to <recording>.openscreen inside RECORDINGS_DIR
+	// without prompting. Anything outside RECORDINGS_DIR is rejected so this
+	// channel can never silently write to arbitrary user locations.
+	ipcMain.handle(
+		"save-project-file-silent",
+		async (_, projectData: unknown, targetPath: string) => {
+			try {
+				if (!targetPath || typeof targetPath !== "string") {
+					return { success: false, message: "Invalid target path" };
+				}
+				if (path.extname(targetPath).toLowerCase() !== `.${PROJECT_FILE_EXTENSION}`) {
+					return { success: false, message: "Not an Openscreen project file" };
+				}
+				if (!isPathWithinDir(targetPath, RECORDINGS_DIR)) {
+					return {
+						success: false,
+						message: "Silent saves are restricted to the recordings directory",
+					};
+				}
+
+				const resolvedTarget = path.resolve(targetPath);
+				await fs.writeFile(resolvedTarget, JSON.stringify(projectData, null, 2), "utf-8");
+				currentProjectPath = resolvedTarget;
+				return { success: true, path: resolvedTarget, message: "Project saved successfully" };
+			} catch (error) {
+				console.error("Failed to silently save project file:", error);
+				return { success: false, message: "Failed to save project file", error: String(error) };
+			}
+		},
+	);
+
 	async function saveProjectFile(
 		projectData: unknown,
 		suggestedName?: string,

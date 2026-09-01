@@ -193,6 +193,21 @@ export function deriveNextId(prefix: string, ids: string[]): number {
 	return max + 1;
 }
 
+/**
+ * Companion `.openscreen` project path for a recording video: same directory,
+ * video stem, `.openscreen` extension. The editor sidebar auto-saves project
+ * edits there and restores them when the recording is reopened.
+ */
+export function projectPathForVideo(videoPath: string): string {
+	const normalized = videoPath.replace(/\\/g, "/");
+	const lastSep = normalized.lastIndexOf("/");
+	const dir = lastSep >= 0 ? normalized.slice(0, lastSep) : "";
+	const base = lastSep >= 0 ? normalized.slice(lastSep + 1) : normalized;
+	const stem = base.replace(/\.[^.]+$/, "") || base;
+	const fileName = `${stem}.openscreen`;
+	return dir ? `${dir}/${fileName}` : fileName;
+}
+
 export function validateProjectData(candidate: unknown): candidate is EditorProjectData {
 	if (!candidate || typeof candidate !== "object") return false;
 	const project = candidate as Partial<EditorProjectData>;

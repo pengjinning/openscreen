@@ -5,9 +5,32 @@ import {
 	hasProjectUnsavedChanges,
 	normalizeProjectEditor,
 	PROJECT_VERSION,
+	projectPathForVideo,
 	resolveProjectMedia,
 	validateProjectData,
 } from "./projectPersistence";
+
+describe("projectPathForVideo", () => {
+	it("derives a sibling .openscreen path next to the recording", () => {
+		expect(projectPathForVideo("/recordings/recording-123.mp4")).toBe(
+			"/recordings/recording-123.openscreen",
+		);
+	});
+
+	it("handles multi-dot stems and webm sources", () => {
+		expect(projectPathForVideo("/recordings/my.clip.webm")).toBe("/recordings/my.clip.openscreen");
+	});
+
+	it("accepts windows separators", () => {
+		expect(projectPathForVideo("C:\\Users\\me\\recordings\\clip.mp4")).toBe(
+			"C:/Users/me/recordings/clip.openscreen",
+		);
+	});
+
+	it("keeps dotless file names intact", () => {
+		expect(projectPathForVideo("/recordings/recording")).toBe("/recordings/recording.openscreen");
+	});
+});
 
 describe("projectPersistence media compatibility", () => {
 	it("accepts legacy projects with a single videoPath", () => {

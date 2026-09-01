@@ -344,6 +344,9 @@ function updateTrayMenu(recording: boolean = false) {
 let editorHasUnsavedChanges = false;
 let isForceClosing = false;
 let isCloseConfirmInFlight = false;
+// True once a real quit (tray Quit / HUD close button / Cmd+Q) is underway, so
+// window-all-closed doesn't resurrect the HUD in the middle of quitting.
+let isQuitting = false;
 
 ipcMain.on("set-has-unsaved-changes", (_, hasChanges: boolean) => {
 	editorHasUnsavedChanges = hasChanges;
@@ -373,6 +376,12 @@ function createEditorWindowWrapper() {
 	}
 	mainWindow = createEditorWindow();
 	editorHasUnsavedChanges = false;
+
+	mainWindow.on("closed", () => {
+		// Reset the unsaved guard once the editor is really gone so a later
+		// HUD/editor cycle starts clean.
+		editorHasUnsavedChanges = false;
+	});
 
 	mainWindow.on("close", (event) => {
 		if (isForceClosing || !editorHasUnsavedChanges || isCloseConfirmInFlight) return;
@@ -427,10 +436,16 @@ function createCountdownOverlayWindowWrapper() {
 	return countdownOverlayWindow;
 }
 
-// Closing every window quits the app (tray goes too). The in-app "Return to Recorder"
-// button covers the editor-to-HUD round-trip, so closing the last window means "I'm done".
+// Closing the last window returns to the recorder HUD instead of quitting:
+// the tray icon stays put and recording stays available. Quitting remains
+// explicit via the tray menu's Quit, the HUD close button, or Cmd+Q.
+app.on("before-quit", () => {
+	isQuitting = true;
+});
+
 app.on("window-all-closed", () => {
-	app.quit();
+	if (isQuitting) return;
+	showMainWindow();
 });
 
 app.on("activate", () => {

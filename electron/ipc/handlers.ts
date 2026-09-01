@@ -27,6 +27,7 @@ import {
 	type ProjectMedia,
 	type RecordedVideoAssetInput,
 	type RecordingSession,
+	type RecordingSessionSummary,
 	type StoreRecordedSessionInput,
 } from "../../src/lib/recordingSession";
 import type {
@@ -357,6 +358,84 @@ let selectedDesktopSource: DesktopCapturerSource | null = null;
 let lastEnumeratedSources = new Map<string, DesktopCapturerSource>();
 let currentProjectPath: string | null = null;
 let currentRecordingSession: RecordingSession | null = null;
+
+const SELECTED_SOURCE_FILE = path.join(app.getPath("userData"), "selected-source.json");
+// Restore runs at most once per app session: the HUD polls get-selected-source
+// every 500ms and a failed restore must not re-enumerate sources on every tick.
+let selectedSourceRestoreAttempted = false;
+
+interface PersistedSelectedSource {
+	id?: string;
+	name?: string;
+	display_id?: string;
+}
+
+/** Persists the picked source so the record button survives app restarts. */
+async function persistSelectedSource(source: SelectedSource | null): Promise<void> {
+	try {
+		if (!source) {
+			await fs.rm(SELECTED_SOURCE_FILE, { force: true });
+			return;
+		}
+		const payload: PersistedSelectedSource = {
+			id: typeof source.id === "string" ? source.id : undefined,
+			name: typeof source.name === "string" ? source.name : undefined,
+			display_id: typeof source.display_id === "string" ? source.display_id : undefined,
+		};
+		await fs.writeFile(SELECTED_SOURCE_FILE, JSON.stringify(payload, null, 2), "utf-8");
+	} catch (error) {
+		console.warn("Failed to persist selected source:", error);
+	}
+}
+
+/**
+ * Restores the persisted source pick after a restart. The source is only
+ * accepted when it still exists in the current desktopCapturer enumeration,
+ * so a remembered window that has since closed doesn't silently break capture.
+ */
+async function restoreSelectedSource(): Promise<SelectedSource | null> {
+	if (selectedSourceRestoreAttempted) {
+		return null;
+	}
+	selectedSourceRestoreAttempted = true;
+
+	let persisted: PersistedSelectedSource | null = null;
+	try {
+		persisted = JSON.parse(
+			await fs.readFile(SELECTED_SOURCE_FILE, "utf-8"),
+		) as PersistedSelectedSource;
+	} catch {
+		return null;
+	}
+	if (!persisted || typeof persisted.id !== "string" || !persisted.id) {
+		return null;
+	}
+
+	try {
+		const sources = await desktopCapturer.getSources({
+			types: ["screen", "window"],
+			thumbnailSize: { width: 0, height: 0 },
+			fetchWindowIcons: false,
+		});
+		const match = sources.find((source) => source.id === persisted.id);
+		if (!match) {
+			return null;
+		}
+
+		lastEnumeratedSources = new Map(sources.map((source) => [source.id, source]));
+		selectedDesktopSource = match;
+		const restored: SelectedSource = {
+			id: match.id,
+			name: match.name,
+			display_id: match.display_id,
+		};
+		selectedSource = restored;
+		return restored;
+	} catch (error) {
+		console.warn("Failed to restore selected source:", error);
+		return null;
+	}
+}
 
 // Cached source from the user's pick. Used by setDisplayMediaRequestHandler in main.ts for cursor-free capture.
 export function getSelectedDesktopSource(): DesktopCapturerSource | null {
@@ -1353,6 +1432,7 @@ export function registerIpcHandlers(
 				selectedDesktopSource = null;
 			}
 		}
+		await persistSelectedSource(source);
 		const sourceSelectorWin = getSourceSelectorWindow();
 		if (sourceSelectorWin) {
 			sourceSelectorWin.close();
@@ -1360,8 +1440,14 @@ export function registerIpcHandlers(
 		return selectedSource;
 	});
 
-	ipcMain.handle("get-selected-source", () => {
-		return selectedSource;
+	ipcMain.handle("get-selected-source", async () => {
+		if (selectedSource) {
+			return selectedSource;
+		}
+		// The pick lives in memory only until the app restarts; restore the
+		// persisted pick (validated against current sources) so the record
+		// button works immediately after a relaunch.
+		return (await restoreSelectedSource()) ?? null;
 	});
 
 	ipcMain.handle("request-camera-access", async () => {
@@ -2349,6 +2435,66 @@ export function registerIpcHandlers(
 		} catch (error) {
 			console.error("Failed to get video path:", error);
 			return { success: false, message: "Failed to get video path", error: String(error) };
+		}
+	});
+
+	// Lists every finalized recording in RECORDINGS_DIR for the editor's project
+	// list. Sessions whose screen video is missing on disk are skipped so the
+	// sidebar only offers recordings that can actually be reopened.
+	ipcMain.handle("list-recorded-sessions", async () => {
+		try {
+			await fs.mkdir(RECORDINGS_DIR, { recursive: true });
+			const entries = await fs.readdir(RECORDINGS_DIR);
+			const sessions: RecordingSessionSummary[] = [];
+
+			for (const entry of entries) {
+				if (!entry.endsWith(RECORDING_SESSION_SUFFIX)) continue;
+
+				let session: RecordingSession | null = null;
+				try {
+					const content = await fs.readFile(path.join(RECORDINGS_DIR, entry), "utf-8");
+					session = normalizeRecordingSession(JSON.parse(content));
+				} catch {
+					continue;
+				}
+				if (!session) continue;
+
+				const screenVideoPath = session.screenVideoPath;
+				let screenVideoBytes = 0;
+				try {
+					const stat = await fs.stat(screenVideoPath);
+					if (!stat.isFile()) continue;
+					screenVideoBytes = stat.size;
+				} catch {
+					continue;
+				}
+
+				let webcamVideoPath: string | undefined;
+				if (session.webcamVideoPath) {
+					try {
+						const webcamStat = await fs.stat(session.webcamVideoPath);
+						if (webcamStat.isFile()) {
+							webcamVideoPath = session.webcamVideoPath;
+						}
+					} catch {
+						// Webcam sidecar is optional; drop it silently.
+					}
+				}
+
+				sessions.push({
+					screenVideoPath,
+					...(webcamVideoPath ? { webcamVideoPath } : {}),
+					...(session.cursorCaptureMode ? { cursorCaptureMode: session.cursorCaptureMode } : {}),
+					createdAt: session.createdAt,
+					screenVideoBytes,
+				});
+			}
+
+			sessions.sort((a, b) => b.createdAt - a.createdAt);
+			return { success: true, sessions };
+		} catch (error) {
+			console.error("Failed to list recorded sessions:", error);
+			return { success: false, message: "Failed to list recordings", error: String(error) };
 		}
 	});
 

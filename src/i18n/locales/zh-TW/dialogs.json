@@ -59,7 +59,10 @@
 		"discardAndLoadProject": "捨棄並載入專案",
 		"loadProject": "載入專案…",
 		"saveProject": "儲存專案…",
-		"saveProjectAs": "專案另存新檔…"
+		"saveProjectAs": "專案另存新檔…",
+		"detailOpenRecording": "開啟其他錄影前是否儲存目前專案？",
+		"saveAndOpenRecording": "儲存並開啟錄影",
+		"discardAndOpenRecording": "捨棄並開啟錄影"
 	},
 	"fileDialogs": {
 		"saveGif": "儲存匯出的 GIF",

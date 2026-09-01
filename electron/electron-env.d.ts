@@ -93,6 +93,12 @@ interface Window {
 			message?: string;
 			error?: string;
 		}>;
+		listRecordedSessions: () => Promise<{
+			success: boolean;
+			sessions?: import("../src/lib/recordingSession").RecordingSessionSummary[];
+			message?: string;
+			error?: string;
+		}>;
 		setRecordingState: (
 			recording: boolean,
 			recordingId?: number,

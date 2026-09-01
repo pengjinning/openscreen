@@ -59,7 +59,10 @@
 		"discardAndLoadProject": "Отменить и загрузить проект",
 		"loadProject": "Загрузить проект…",
 		"saveProject": "Сохранить проект…",
-		"saveProjectAs": "Сохранить проект как…"
+		"saveProjectAs": "Сохранить проект как…",
+		"detailOpenRecording": "Сохранить проект перед открытием другой записи?",
+		"saveAndOpenRecording": "Сохранить и открыть",
+		"discardAndOpenRecording": "Отменить и открыть"
 	},
 	"fileDialogs": {
 		"saveGif": "Сохранить экспортированный GIF",

@@ -59,7 +59,10 @@
 		"discardAndLoadProject": "Ignorer et charger un projet",
 		"loadProject": "Charger un projet…",
 		"saveProject": "Enregistrer le projet…",
-		"saveProjectAs": "Enregistrer le projet sous…"
+		"saveProjectAs": "Enregistrer le projet sous…",
+		"detailOpenRecording": "Voulez-vous enregistrer votre projet avant d'ouvrir un autre enregistrement ?",
+		"saveAndOpenRecording": "Enregistrer et ouvrir",
+		"discardAndOpenRecording": "Ignorer et ouvrir"
 	},
 	"fileDialogs": {
 		"saveGif": "Enregistrer le GIF exporté",

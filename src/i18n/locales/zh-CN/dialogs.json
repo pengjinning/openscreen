@@ -59,7 +59,10 @@
 		"discardAndLoadProject": "放弃并加载项目",
 		"loadProject": "加载项目…",
 		"saveProject": "保存项目…",
-		"saveProjectAs": "项目另存为…"
+		"saveProjectAs": "项目另存为…",
+		"detailOpenRecording": "打开其他录像前是否保存当前项目？",
+		"saveAndOpenRecording": "保存并打开录像",
+		"discardAndOpenRecording": "丢弃并打开录像"
 	},
 	"fileDialogs": {
 		"saveGif": "保存导出的 GIF",

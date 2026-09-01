@@ -77,5 +77,13 @@
 			"couldNotOpenTitle": "No se pudo abrir el archivo",
 			"couldNotOpenMessage": "No se pudo abrir el archivo de proyecto. El video al que hace referencia puede haber sido movido o eliminado."
 		}
+	},
+	"sessionsSidebar": {
+		"toggle": "Alternar lista de grabaciones",
+		"title": "Grabaciones",
+		"empty": "Aún no hay grabaciones",
+		"refresh": "Actualizar",
+		"reveal": "Mostrar en carpeta",
+		"webcam": "Cámara web"
 	}
 }

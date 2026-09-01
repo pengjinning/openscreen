@@ -59,7 +59,10 @@
 		"discardAndLoadProject": "تجاهل وتحميل مشروع",
 		"loadProject": "تحميل مشروع...",
 		"saveProject": "حفظ المشروع...",
-		"saveProjectAs": "حفظ المشروع باسم..."
+		"saveProjectAs": "حفظ المشروع باسم...",
+		"detailOpenRecording": "هل تريد حفظ مشروعك قبل فتح تسجيل آخر؟",
+		"saveAndOpenRecording": "حفظ وفتح",
+		"discardAndOpenRecording": "تجاهل وفتح"
 	},
 	"fileDialogs": {
 		"saveGif": "حفظ GIF المصدر",

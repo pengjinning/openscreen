@@ -81,6 +81,9 @@ contextBridge.exposeInMainWorld("electronAPI", {
 	getRecordedVideoPath: () => {
 		return ipcRenderer.invoke("get-recorded-video-path");
 	},
+	listRecordedSessions: () => {
+		return ipcRenderer.invoke("list-recorded-sessions");
+	},
 	setRecordingState: (
 		recording: boolean,
 		recordingId?: number,

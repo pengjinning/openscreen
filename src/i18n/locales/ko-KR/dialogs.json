@@ -59,7 +59,10 @@
 		"discardAndLoadProject": "저장하지 않고 프로젝트 불러오기",
 		"loadProject": "프로젝트 불러오기...",
 		"saveProject": "프로젝트 저장...",
-		"saveProjectAs": "다른 이름으로 프로젝트 저장..."
+		"saveProjectAs": "다른 이름으로 프로젝트 저장...",
+		"detailOpenRecording": "다른 녹화를 열기 전에 프로젝트를 저장하시겠습니까?",
+		"saveAndOpenRecording": "저장하고 녹화 열기",
+		"discardAndOpenRecording": "버리고 녹화 열기"
 	},
 	"fileDialogs": {
 		"saveGif": "내보낸 GIF 저장",

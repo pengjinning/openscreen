@@ -77,5 +77,13 @@
 			"couldNotOpenTitle": "无法打开文件",
 			"couldNotOpenMessage": "无法打开项目文件。它引用的视频可能已被移动或删除。"
 		}
+	},
+	"sessionsSidebar": {
+		"toggle": "切换录像列表",
+		"title": "录像项目",
+		"empty": "暂无录像",
+		"refresh": "刷新",
+		"reveal": "在文件夹中显示",
+		"webcam": "摄像头"
 	}
 }

@@ -77,5 +77,13 @@
 			"couldNotOpenTitle": "Impossible d'ouvrir le fichier",
 			"couldNotOpenMessage": "Le fichier de projet n'a pas pu être ouvert. La vidéo qu'il référence a peut-être été déplacée ou supprimée."
 		}
+	},
+	"sessionsSidebar": {
+		"toggle": "Afficher/masquer la liste des enregistrements",
+		"title": "Enregistrements",
+		"empty": "Aucun enregistrement pour le moment",
+		"refresh": "Actualiser",
+		"reveal": "Afficher dans le dossier",
+		"webcam": "Caméra"
 	}
 }

@@ -77,5 +77,13 @@
 			"couldNotOpenTitle": "Dosya Açılamadı",
 			"couldNotOpenMessage": "Proje dosyası açılamadı. Başvurulan video taşınmış veya silinmiş olabilir."
 		}
+	},
+	"sessionsSidebar": {
+		"toggle": "Kayıt listesini aç/kapat",
+		"title": "Kayıtlar",
+		"empty": "Henüz kayıt yok",
+		"refresh": "Yenile",
+		"reveal": "Klasörde göster",
+		"webcam": "Web kamerası"
 	}
 }

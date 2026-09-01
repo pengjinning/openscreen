@@ -10,6 +10,19 @@ export interface RecordingSession extends ProjectMedia {
 	createdAt: number;
 }
 
+/**
+ * Lightweight listing entry for the recordings sidebar. Sessions whose screen
+ * video no longer exists on disk are filtered out by the main process.
+ */
+export interface RecordingSessionSummary {
+	screenVideoPath: string;
+	webcamVideoPath?: string;
+	cursorCaptureMode?: CursorCaptureMode;
+	createdAt: number;
+	/** Size of the screen video file in bytes, for display only. */
+	screenVideoBytes: number;
+}
+
 export interface RecordedVideoAssetInput {
 	fileName: string;
 	videoData: ArrayBuffer;

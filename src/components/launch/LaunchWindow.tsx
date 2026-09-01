@@ -44,6 +44,8 @@ const HUD_DEVICE_POPUP_HORIZONTAL_BOTTOM = 68;
 // System-language prompt: anchored this many px below the window's top edge.
 // Mirrors the inline `top` style on the prompt element.
 const SYSTEM_LANGUAGE_PROMPT_TOP_OFFSET = 32;
+// Breathing room between the prompt's bottom edge and the HUD bar below it.
+const SYSTEM_LANGUAGE_PROMPT_BAR_GAP = 12;
 
 const ICON_CONFIG = {
 	drag: { icon: RxDragHandleDots2, size: ICON_SIZE },
@@ -358,17 +360,19 @@ export function LaunchWindow() {
 		});
 
 		// The system-language prompt is top-anchored (unlike the bottom-anchored popups
-		// above), so also fit the window to its full box — the native window bounds clip
-		// anything beyond them, which hides the prompt's buttons. Use offsetHeight (layout
+		// above), so the window must fit the prompt AND the bar stacked vertically —
+		// taking the max of the two spans instead makes them overlap, which lets the
+		// prompt div intercept clicks on the record button. Use offsetHeight (layout
 		// size): the prompt's zoom-in entry animation is a transform, which
 		// getBoundingClientRect would misread and ResizeObserver cannot re-fire.
 		let height = Math.ceil(topFromBottom) + TOP_MARGIN;
 		const promptEl = systemLanguagePromptRef.current;
 		if (promptEl && promptEl.offsetHeight > 0) {
-			height = Math.max(
-				height,
-				SYSTEM_LANGUAGE_PROMPT_TOP_OFFSET + promptEl.offsetHeight + TOP_MARGIN,
-			);
+			height =
+				SYSTEM_LANGUAGE_PROMPT_TOP_OFFSET +
+				promptEl.offsetHeight +
+				SYSTEM_LANGUAGE_PROMPT_BAR_GAP +
+				Math.ceil(topFromBottom);
 		}
 
 		const width = Math.max(MIN_WIDTH, Math.ceil(halfWidth * 2) + SIDE_MARGIN);
@@ -777,122 +781,145 @@ export function LaunchWindow() {
 				</Tooltip>
 
 				{/* Source selector */}
-				<button
-					data-testid="launch-source-selector-button"
-					className={`${hudGroupClasses} h-8 ${trayLayout === "vertical" ? "w-8 justify-center px-0" : "px-2.5"} ${styles.electronNoDrag}`}
-					onClick={openSourceSelector}
-					disabled={recording}
-					title={selectedSource}
-					aria-label={selectedSource}
-				>
-					{getIcon("monitor", "text-white/80")}
-					<span
-						className={`${trayLayout === "vertical" ? "sr-only" : "max-w-[86px]"} truncate text-[11px] font-medium text-white/75`}
+				<Tooltip content={selectedSource}>
+					<button
+						data-testid="launch-source-selector-button"
+						className={`${hudGroupClasses} h-8 ${trayLayout === "vertical" ? "w-8 justify-center px-0" : "px-2.5"} ${styles.electronNoDrag}`}
+						onClick={openSourceSelector}
+						disabled={recording}
+						aria-label={selectedSource}
 					>
-						{selectedSource}
-					</span>
-				</button>
+						{getIcon("monitor", "text-white/80")}
+						<span
+							className={`${trayLayout === "vertical" ? "sr-only" : "max-w-[86px]"} truncate text-[11px] font-medium text-white/75`}
+						>
+							{selectedSource}
+						</span>
+					</button>
+				</Tooltip>
 
 				{/* Audio controls group */}
 				<div
 					className={`${hudGroupClasses} ${trayLayout === "vertical" ? "flex-col py-1" : ""} ${styles.electronNoDrag}`}
 				>
-					<button
-						data-testid="launch-system-audio-button"
-						className={`${hudIconBtnClasses} ${systemAudioEnabled ? "drop-shadow-[0_0_4px_rgba(74,222,128,0.4)]" : ""}`}
-						onClick={() => !recording && setSystemAudioEnabled(!systemAudioEnabled)}
-						disabled={recording}
-						title={
+					<Tooltip
+						content={
 							systemAudioEnabled ? t("audio.disableSystemAudio") : t("audio.enableSystemAudio")
 						}
 					>
-						{systemAudioEnabled
-							? getIcon("volumeOn", "text-green-400")
-							: getIcon("volumeOff", "text-white/40")}
-					</button>
-					<button
-						data-testid="launch-microphone-button"
-						className={`${hudIconBtnClasses} ${microphoneEnabled ? "drop-shadow-[0_0_4px_rgba(74,222,128,0.4)]" : ""}`}
-						onClick={toggleMicrophone}
-						disabled={recording}
-						title={microphoneEnabled ? t("audio.disableMicrophone") : t("audio.enableMicrophone")}
-						onPointerDown={() => {
-							setRecordPointerDownCount((count) => count + 1);
-						}}
-					>
-						{microphoneEnabled
-							? getIcon("micOn", "text-green-400")
-							: getIcon("micOff", "text-white/40")}
-					</button>
-					<button
-						data-testid="launch-webcam-button"
-						className={`${hudIconBtnClasses} ${webcamEnabled ? "drop-shadow-[0_0_4px_rgba(74,222,128,0.4)]" : ""}`}
-						onClick={async () => {
-							await setWebcamEnabled(!webcamEnabled);
-						}}
-						disabled={recording}
-						title={webcamEnabled ? t("webcam.disableWebcam") : t("webcam.enableWebcam")}
-					>
-						{webcamEnabled
-							? getIcon("webcamOn", "text-green-400")
-							: getIcon("webcamOff", "text-white/40")}
-					</button>
-					{supportsCursorModeToggle && (
 						<button
-							data-testid="launch-cursor-mode-button"
-							className={`${hudIconBtnClasses} ${
-								cursorCaptureMode === "editable-overlay"
-									? "drop-shadow-[0_0_4px_rgba(74,222,128,0.4)]"
-									: ""
-							}`}
-							onClick={() =>
-								!recording &&
-								setCursorCaptureMode(
-									cursorCaptureMode === "editable-overlay" ? "system" : "editable-overlay",
-								)
-							}
+							data-testid="launch-system-audio-button"
+							className={`${hudIconBtnClasses} ${systemAudioEnabled ? "drop-shadow-[0_0_4px_rgba(74,222,128,0.4)]" : ""}`}
+							onClick={() => !recording && setSystemAudioEnabled(!systemAudioEnabled)}
 							disabled={recording}
-							title={
+						>
+							{systemAudioEnabled
+								? getIcon("volumeOn", "text-green-400")
+								: getIcon("volumeOff", "text-white/40")}
+						</button>
+					</Tooltip>
+					<Tooltip
+						content={microphoneEnabled ? t("audio.disableMicrophone") : t("audio.enableMicrophone")}
+					>
+						<button
+							data-testid="launch-microphone-button"
+							className={`${hudIconBtnClasses} ${microphoneEnabled ? "drop-shadow-[0_0_4px_rgba(74,222,128,0.4)]" : ""}`}
+							onClick={toggleMicrophone}
+							disabled={recording}
+							onPointerDown={() => {
+								setRecordPointerDownCount((count) => count + 1);
+							}}
+						>
+							{microphoneEnabled
+								? getIcon("micOn", "text-green-400")
+								: getIcon("micOff", "text-white/40")}
+						</button>
+					</Tooltip>
+					<Tooltip content={webcamEnabled ? t("webcam.disableWebcam") : t("webcam.enableWebcam")}>
+						<button
+							data-testid="launch-webcam-button"
+							className={`${hudIconBtnClasses} ${webcamEnabled ? "drop-shadow-[0_0_4px_rgba(74,222,128,0.4)]" : ""}`}
+							onClick={async () => {
+								await setWebcamEnabled(!webcamEnabled);
+							}}
+							disabled={recording}
+						>
+							{webcamEnabled
+								? getIcon("webcamOn", "text-green-400")
+								: getIcon("webcamOff", "text-white/40")}
+						</button>
+					</Tooltip>
+					{supportsCursorModeToggle && (
+						<Tooltip
+							content={
 								cursorCaptureMode === "editable-overlay"
 									? t("cursor.useSystemCursor")
 									: t("cursor.useEditableCursor")
 							}
 						>
-							{getIcon(
-								"cursor",
-								cursorCaptureMode === "editable-overlay" ? "text-green-400" : "text-white/40",
-							)}
-						</button>
+							<button
+								data-testid="launch-cursor-mode-button"
+								className={`${hudIconBtnClasses} ${
+									cursorCaptureMode === "editable-overlay"
+										? "drop-shadow-[0_0_4px_rgba(74,222,128,0.4)]"
+										: ""
+								}`}
+								onClick={() =>
+									!recording &&
+									setCursorCaptureMode(
+										cursorCaptureMode === "editable-overlay" ? "system" : "editable-overlay",
+									)
+								}
+								disabled={recording}
+							>
+								{getIcon(
+									"cursor",
+									cursorCaptureMode === "editable-overlay" ? "text-green-400" : "text-white/40",
+								)}
+							</button>
+						</Tooltip>
 					)}
 				</div>
 
-				{/* Record/Stop group */}
-				<button
-					data-testid="launch-record-button"
-					className={`flex items-center justify-center rounded-full p-2 transition-[min-width,background-color] duration-150 ${recording ? "min-w-[78px]" : "min-w-[36px]"} ${trayLayout === "vertical" ? "min-h-9" : ""} ${styles.electronNoDrag} ${
+				{/* Record/Stop group. The span keeps the tooltip trigger hoverable even
+				 while the button is disabled (no source selected yet). */}
+				<Tooltip
+					content={
 						recording
-							? paused
-								? "bg-amber-500/10 hover:bg-amber-500/15"
-								: "bg-red-500/12 hover:bg-red-500/16"
-							: "bg-white/[0.06] hover:bg-white/[0.10]"
-					}`}
-					onClick={toggleRecording}
-					disabled={!hasSelectedSource && !recording}
-					style={{ flex: "0 0 auto" }}
+							? t("tooltips.stopRecording")
+							: hasSelectedSource
+								? t("tooltips.startRecording")
+								: t("recording.selectSource")
+					}
 				>
-					<div className={`flex items-center justify-center ${recording ? "gap-1.5" : ""}`}>
-						{recording
-							? getIcon("stop", paused ? "text-amber-400" : "text-red-400")
-							: getIcon("record", hasSelectedSource ? "text-white/80" : "text-white/30")}
-						{recording && (
-							<span
-								className={`${paused ? "text-amber-400" : "text-red-400"} inline-block w-[34px] text-left text-xs font-semibold tabular-nums`}
-							>
-								{formatTimePadded(elapsedSeconds)}
-							</span>
-						)}
-					</div>
-				</button>
+					<span className="flex" style={{ flex: "0 0 auto" }}>
+						<button
+							data-testid="launch-record-button"
+							className={`flex items-center justify-center rounded-full p-2 transition-[min-width,background-color] duration-150 ${recording ? "min-w-[78px]" : "min-w-[36px]"} ${trayLayout === "vertical" ? "min-h-9" : ""} ${styles.electronNoDrag} ${
+								recording
+									? paused
+										? "bg-amber-500/10 hover:bg-amber-500/15"
+										: "bg-red-500/12 hover:bg-red-500/16"
+									: "bg-white/[0.06] hover:bg-white/[0.10]"
+							}`}
+							onClick={toggleRecording}
+							disabled={!hasSelectedSource && !recording}
+						>
+							<div className={`flex items-center justify-center ${recording ? "gap-1.5" : ""}`}>
+								{recording
+									? getIcon("stop", paused ? "text-amber-400" : "text-red-400")
+									: getIcon("record", hasSelectedSource ? "text-white/80" : "text-white/30")}
+								{recording && (
+									<span
+										className={`${paused ? "text-amber-400" : "text-red-400"} inline-block w-[34px] text-left text-xs font-semibold tabular-nums`}
+									>
+										{formatTimePadded(elapsedSeconds)}
+									</span>
+								)}
+							</div>
+						</button>
+					</span>
+				</Tooltip>
 
 				{recording && (
 					<div

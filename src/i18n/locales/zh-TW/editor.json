@@ -77,5 +77,13 @@
 			"couldNotOpenTitle": "無法開啟檔案",
 			"couldNotOpenMessage": "無法開啟專案檔案。它所參照的影片可能已被移動或刪除。"
 		}
+	},
+	"sessionsSidebar": {
+		"toggle": "切換錄影清單",
+		"title": "錄影專案",
+		"empty": "尚無錄影",
+		"refresh": "重新整理",
+		"reveal": "在資料夾中顯示",
+		"webcam": "網路攝影機"
 	}
 }

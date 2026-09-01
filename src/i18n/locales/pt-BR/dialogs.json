@@ -42,7 +42,6 @@
 		"step1Title": "1. Adicionar Recorte",
 		"step1DescriptionBefore": "Pressione ",
 		"step1DescriptionAfter": " ou clique no ícone da tesoura para marcar uma seção para remoção.",
-
 		"step2Title": "2. Ajustar",
 		"step2Description": "Arraste as bordas da região vermelha para cobrir exatamente o que você deseja cortar."
 	},
@@ -54,7 +53,10 @@
 		"discardAndClose": "Descartar e Fechar",
 		"loadProject": "Carregar Projeto…",
 		"saveProject": "Salvar Projeto…",
-		"saveProjectAs": "Salvar Projeto Como…"
+		"saveProjectAs": "Salvar Projeto Como…",
+		"detailOpenRecording": "Deseja salvar seu projeto antes de abrir outra gravação?",
+		"saveAndOpenRecording": "Salvar e abrir",
+		"discardAndOpenRecording": "Descartar e abrir"
 	},
 	"fileDialogs": {
 		"saveGif": "Salvar GIF Exportado",

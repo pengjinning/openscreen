@@ -9,7 +9,9 @@
 		"openVideoFile": "Video dosyası aç",
 		"openProject": "Proje aç",
 		"useVerticalTray": "Dikey araç çubuğunu kullan",
-		"useHorizontalTray": "Yatay araç çubuğunu kullan"
+		"useHorizontalTray": "Yatay araç çubuğunu kullan",
+		"startRecording": "Kaydı başlat",
+		"stopRecording": "Kaydı durdur"
 	},
 	"audio": {
 		"enableSystemAudio": "Sistem sesini etkinleştir",

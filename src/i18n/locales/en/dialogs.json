@@ -42,7 +42,6 @@
 		"step1Title": "1. Add Trim",
 		"step1DescriptionBefore": "Press ",
 		"step1DescriptionAfter": " or click the scissors icon to mark a section for removal.",
-
 		"step2Title": "2. Adjust",
 		"step2Description": "Drag the edges of the red region to cover exactly what you want to cut out."
 	},
@@ -62,7 +61,10 @@
 		"importVideo": "Import Video File…",
 		"loadProject": "Load Project…",
 		"saveProject": "Save Project…",
-		"saveProjectAs": "Save Project As…"
+		"saveProjectAs": "Save Project As…",
+		"detailOpenRecording": "Do you want to save your project before opening another recording?",
+		"saveAndOpenRecording": "Save & Open Recording",
+		"discardAndOpenRecording": "Discard & Open Recording"
 	},
 	"fileDialogs": {
 		"saveGif": "Save Exported GIF",

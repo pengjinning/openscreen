@@ -60,5 +60,13 @@
 		"noAudio": "Este vídeo não tem áudio utilizável para transcrição.",
 		"failed": "Não foi possível gerar as legendas.",
 		"truncated": "Apenas os primeiros {{minutes}} minutos foram transcritos."
+	},
+	"sessionsSidebar": {
+		"toggle": "Alternar lista de gravações",
+		"title": "Gravações",
+		"empty": "Nenhuma gravação ainda",
+		"refresh": "Atualizar",
+		"reveal": "Mostrar na pasta",
+		"webcam": "Webcam"
 	}
 }

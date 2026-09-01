@@ -59,7 +59,10 @@
 		"discardAndLoadProject": "Kaydetmeden Proje Yükle",
 		"loadProject": "Proje Yükle…",
 		"saveProject": "Proje Kaydet…",
-		"saveProjectAs": "Farklı Kaydet…"
+		"saveProjectAs": "Farklı Kaydet…",
+		"detailOpenRecording": "Başka bir kaydı açmadan önce projenizi kaydetmek istiyor musunuz?",
+		"saveAndOpenRecording": "Kaydet ve Aç",
+		"discardAndOpenRecording": "At ve Aç"
 	},
 	"fileDialogs": {
 		"saveGif": "Dışa Aktarılan GIF'i Kaydet",

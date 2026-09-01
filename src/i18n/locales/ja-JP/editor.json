@@ -77,5 +77,13 @@
 			"couldNotOpenTitle": "ファイルを開けませんでした",
 			"couldNotOpenMessage": "プロジェクトファイルを開けませんでした。参照している動画が移動または削除された可能性があります。"
 		}
+	},
+	"sessionsSidebar": {
+		"toggle": "録画リストの切替",
+		"title": "録画",
+		"empty": "録画はまだありません",
+		"refresh": "更新",
+		"reveal": "フォルダーで表示",
+		"webcam": "ウェブカメラ"
 	}
 }

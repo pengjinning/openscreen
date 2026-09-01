@@ -61,5 +61,13 @@
 		"noAudio": "Questo video non contiene audio utilizzabile per la trascrizione.",
 		"failed": "Impossibile generare i sottotitoli.",
 		"truncated": "Sono stati trascritti solo i primi {{minutes}} minuti."
+	},
+	"sessionsSidebar": {
+		"toggle": "Mostra/nascondi lista registrazioni",
+		"title": "Registrazioni",
+		"empty": "Nessuna registrazione",
+		"refresh": "Aggiorna",
+		"reveal": "Mostra nella cartella",
+		"webcam": "Webcam"
 	}
 }

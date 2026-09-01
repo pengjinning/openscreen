@@ -9,7 +9,9 @@
 		"openVideoFile": "Ouvrir un fichier vidéo",
 		"openProject": "Ouvrir un projet",
 		"useVerticalTray": "Utiliser la barre verticale",
-		"useHorizontalTray": "Utiliser la barre horizontale"
+		"useHorizontalTray": "Utiliser la barre horizontale",
+		"startRecording": "Démarrer l'enregistrement",
+		"stopRecording": "Arrêter l'enregistrement"
 	},
 	"audio": {
 		"enableSystemAudio": "Activer l'audio système",

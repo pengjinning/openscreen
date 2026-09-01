@@ -77,5 +77,13 @@
 			"couldNotOpenTitle": "Không thể mở tệp",
 			"couldNotOpenMessage": "Không thể mở tệp dự án. Video mà nó tham chiếu có thể đã bị di chuyển hoặc xóa."
 		}
+	},
+	"sessionsSidebar": {
+		"toggle": "Bật/tắt danh sách bản ghi",
+		"title": "Bản ghi",
+		"empty": "Chưa có bản ghi nào",
+		"refresh": "Làm mới",
+		"reveal": "Hiện trong thư mục",
+		"webcam": "Webcam"
 	}
 }

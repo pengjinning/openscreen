@@ -59,7 +59,10 @@
 		"discardAndLoadProject": "Bỏ qua & Tải dự án",
 		"loadProject": "Tải dự án…",
 		"saveProject": "Lưu dự án…",
-		"saveProjectAs": "Lưu dự án thành…"
+		"saveProjectAs": "Lưu dự án thành…",
+		"detailOpenRecording": "Bạn có muốn lưu dự án trước khi mở bản ghi khác không?",
+		"saveAndOpenRecording": "Lưu & Mở",
+		"discardAndOpenRecording": "Bỏ & Mở"
 	},
 	"fileDialogs": {
 		"saveGif": "Lưu GIF đã xuất",

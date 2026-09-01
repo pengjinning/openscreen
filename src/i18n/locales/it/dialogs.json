@@ -53,7 +53,10 @@
 		"discardAndClose": "Scarta e chiudi",
 		"loadProject": "Carica progetto…",
 		"saveProject": "Salva progetto…",
-		"saveProjectAs": "Salva progetto come…"
+		"saveProjectAs": "Salva progetto come…",
+		"detailOpenRecording": "Vuoi salvare il progetto prima di aprire un'altra registrazione?",
+		"saveAndOpenRecording": "Salva e apri",
+		"discardAndOpenRecording": "Scarta e apri"
 	},
 	"fileDialogs": {
 		"saveGif": "Salva GIF esportata",

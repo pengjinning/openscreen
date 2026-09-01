@@ -77,5 +77,13 @@
 			"couldNotOpenTitle": "Could Not Open File",
 			"couldNotOpenMessage": "The project file could not be opened. The video it references may have been moved or deleted."
 		}
+	},
+	"sessionsSidebar": {
+		"toggle": "Toggle recordings list",
+		"title": "Recordings",
+		"empty": "No recordings yet",
+		"refresh": "Refresh",
+		"reveal": "Reveal in folder",
+		"webcam": "Webcam"
 	}
 }

@@ -63,6 +63,42 @@
 		"failed": "Không thể tạo phụ đề.",
 		"truncated": "Chỉ {{minutes}} phút đầu tiên được chuyển thành văn bản."
 	},
+	"merge": {
+		"title": "Ghép video",
+		"description": "Ghép nhiều video thành một, theo thứ tự bên dưới.",
+		"toolBarButton": "Ghép",
+		"addFiles": "Thêm video…",
+		"emptyHint": "Thêm ít nhất hai video để ghép",
+		"probing": "Đang đọc thông tin video…",
+		"probeFailed": "Không thể đọc tệp này (định dạng không được hỗ trợ?)",
+		"probeFailedHint": "Một hoặc nhiều video không thể đọc. Hãy xóa chúng để tiếp tục.",
+		"clipCount": "{{count}} video",
+		"totalDuration": "Tổng:",
+		"outputResolution": "Đầu ra:",
+		"moveUp": "Chuyển lên",
+		"moveDown": "Chuyển xuống",
+		"remove": "Xóa",
+		"close": "Đóng",
+		"mergeButton": "Ghép và xuất",
+		"cancelMerge": "Hủy ghép",
+		"phaseReading": "Đang đọc tệp…",
+		"phaseAnalyzing": "Đang phân tích video…",
+		"phaseMerging": "Đang ghép video…",
+		"phaseMergingClip": "Đang ghép {{index}}/{{count}}: {{name}}",
+		"phaseFinalizing": "Đang tạo video…",
+		"modeRemux": "Ghép nhanh (không mã hóa lại)",
+		"modeTranscode": "Mã hóa lại để tương thích",
+		"successTitle": "Đã ghép xong",
+		"successMessage": "Đã ghép các video thành một tệp",
+		"showInFolder": "Hiện trong thư mục",
+		"openInEditor": "Mở trong trình chỉnh sửa",
+		"mergeSucceeded": "Đã ghép video thành công",
+		"mergeFailed": "Không thể ghép video",
+		"mergeFailedWithError": "Không thể ghép video: {{error}}",
+		"dropOverlay": "Thả video để thêm vào",
+		"emptyDropHint": "hoặc kéo và thả tệp video vào đây",
+		"dropUnsupported": "Không tìm thấy video được hỗ trợ trong các mục đã thả"
+	},
 	"emptyState": {
 		"title": "Không có dự án nào được mở",
 		"description": "Nhập video để bắt đầu chỉnh sửa hoặc tải một dự án OpenScreen hiện có.",
@@ -76,7 +112,8 @@
 			"unsupportedFormatMessage": "Chỉ có thể thả các tệp dự án .openscreen vào đây. Để nhập video, hãy sử dụng nút \"Nhập tệp video...\" thay thế.",
 			"couldNotOpenTitle": "Không thể mở tệp",
 			"couldNotOpenMessage": "Không thể mở tệp dự án. Video mà nó tham chiếu có thể đã bị di chuyển hoặc xóa."
-		}
+		},
+		"mergeVideosButton": "Ghép video…"
 	},
 	"sessionsSidebar": {
 		"toggle": "Bật/tắt danh sách bản ghi",

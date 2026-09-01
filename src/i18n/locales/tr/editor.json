@@ -63,6 +63,42 @@
 		"failed": "Altyazılar oluşturulamadı.",
 		"truncated": "Yalnızca ilk {{minutes}} dakika yazıya döküldü."
 	},
+	"merge": {
+		"title": "Videoları birleştir",
+		"description": "Birden çok videoyu aşağıdaki sırayla tek bir videoda birleştirir.",
+		"toolBarButton": "Birleştir",
+		"addFiles": "Video ekle…",
+		"emptyHint": "Birleştirmek için en az iki video ekleyin",
+		"probing": "Video bilgileri okunuyor…",
+		"probeFailed": "Bu dosya okunamadı (biçim desteklenmiyor olabilir)",
+		"probeFailedHint": "Bir veya daha fazla video okunamadı. Devam etmek için kaldırın.",
+		"clipCount": "{{count}} video",
+		"totalDuration": "Toplam:",
+		"outputResolution": "Çıktı:",
+		"moveUp": "Yukarı taşı",
+		"moveDown": "Aşağı taşı",
+		"remove": "Kaldır",
+		"close": "Kapat",
+		"mergeButton": "Birleştir ve dışa aktar",
+		"cancelMerge": "Birleştirmeyi iptal et",
+		"phaseReading": "Dosyalar okunuyor…",
+		"phaseAnalyzing": "Videolar analiz ediliyor…",
+		"phaseMerging": "Videolar birleştiriliyor…",
+		"phaseMergingClip": "Birleştiriliyor {{index}}/{{count}}: {{name}}",
+		"phaseFinalizing": "Video oluşturuluyor…",
+		"modeRemux": "Hızlı birleştirme (yeniden kodlama yok)",
+		"modeTranscode": "Uyumluluk için yeniden kodlanıyor",
+		"successTitle": "Birleştirme tamamlandı",
+		"successMessage": "Videolar tek dosyada birleştirildi",
+		"showInFolder": "Klasörde göster",
+		"openInEditor": "Düzenleyicide aç",
+		"mergeSucceeded": "Videolar başarıyla birleştirildi",
+		"mergeFailed": "Videolar birleştirilemedi",
+		"mergeFailedWithError": "Videolar birleştirilemedi: {{error}}",
+		"dropOverlay": "Eklemek için videoları bırakın",
+		"emptyDropHint": "veya video dosyalarını buraya sürükleyip bırakın",
+		"dropUnsupported": "Bırakılan öğelerde desteklenen video bulunamadı"
+	},
 	"emptyState": {
 		"title": "Açık proje yok",
 		"description": "Düzenlemeye başlamak için bir video içe aktarın veya mevcut bir OpenScreen projesi yükleyin.",
@@ -76,7 +112,8 @@
 			"unsupportedFormatMessage": "Buraya yalnızca .openscreen proje dosyaları bırakılabilir. Video içe aktarmak için \"Video Dosyası İçe Aktar...\" düğmesini kullanın.",
 			"couldNotOpenTitle": "Dosya Açılamadı",
 			"couldNotOpenMessage": "Proje dosyası açılamadı. Başvurulan video taşınmış veya silinmiş olabilir."
-		}
+		},
+		"mergeVideosButton": "Videoları birleştir…"
 	},
 	"sessionsSidebar": {
 		"toggle": "Kayıt listesini aç/kapat",

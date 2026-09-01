@@ -149,8 +149,11 @@ contextBridge.exposeInMainWorld("electronAPI", {
 	writeExportToPath: (videoData: ArrayBuffer, filePath: string) => {
 		return ipcRenderer.invoke("write-export-to-path", videoData, filePath);
 	},
-	openVideoFilePicker: () => {
-		return ipcRenderer.invoke("open-video-file-picker");
+	openVideoFilePicker: (options?: { multiple?: boolean }) => {
+		return ipcRenderer.invoke("open-video-file-picker", options);
+	},
+	approveVideoFilePaths: (filePaths: string[]) => {
+		return ipcRenderer.invoke("approve-video-file-paths", filePaths);
 	},
 	setCurrentVideoPath: (path: string) => {
 		return ipcRenderer.invoke("set-current-video-path", path);

@@ -63,6 +63,42 @@
 		"failed": "無法產生字幕。",
 		"truncated": "僅轉寫了最前 {{minutes}} 分鐘。"
 	},
+	"merge": {
+		"title": "合併影片",
+		"description": "將多個影片依下方順序合併為一個影片。",
+		"toolBarButton": "合併",
+		"addFiles": "新增影片…",
+		"emptyHint": "至少加入兩個影片才能合併",
+		"probing": "正在讀取影片資訊…",
+		"probeFailed": "無法讀取該檔案（格式可能不支援）",
+		"probeFailedHint": "有一個或多個影片無法讀取，請移除後再繼續。",
+		"clipCount": "{{count}} 個影片",
+		"totalDuration": "總長度：",
+		"outputResolution": "輸出：",
+		"moveUp": "上移",
+		"moveDown": "下移",
+		"remove": "移除",
+		"close": "關閉",
+		"mergeButton": "合併並匯出",
+		"cancelMerge": "取消合併",
+		"phaseReading": "正在讀取檔案…",
+		"phaseAnalyzing": "正在分析影片…",
+		"phaseMerging": "正在合併影片…",
+		"phaseMergingClip": "正在合併 {{index}}/{{count}}：{{name}}",
+		"phaseFinalizing": "正在產生影片…",
+		"modeRemux": "快速合併（不重新編碼）",
+		"modeTranscode": "重新編碼以相容格式",
+		"successTitle": "合併完成",
+		"successMessage": "影片已合併為一個檔案",
+		"showInFolder": "在資料夾中顯示",
+		"openInEditor": "在編輯器中開啟",
+		"mergeSucceeded": "影片合併成功",
+		"mergeFailed": "影片合併失敗",
+		"mergeFailedWithError": "影片合併失敗：{{error}}",
+		"dropOverlay": "放開滑鼠即可加入影片",
+		"emptyDropHint": "或將影片檔案拖放到此處",
+		"dropUnsupported": "拖入的內容中沒有支援的影片檔案"
+	},
 	"emptyState": {
 		"title": "未開啟任何專案",
 		"description": "匯入影片以開始編輯，或載入現有的 OpenScreen 專案。",
@@ -76,7 +112,8 @@
 			"unsupportedFormatMessage": "此處只能拖放 .openscreen 專案檔案。要匯入影片，請使用「匯入影片檔案...」按鈕。",
 			"couldNotOpenTitle": "無法開啟檔案",
 			"couldNotOpenMessage": "無法開啟專案檔案。它所參照的影片可能已被移動或刪除。"
-		}
+		},
+		"mergeVideosButton": "合併多個影片…"
 	},
 	"sessionsSidebar": {
 		"toggle": "切換錄影清單",

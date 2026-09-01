@@ -63,6 +63,42 @@
 		"failed": "无法生成字幕。",
 		"truncated": "仅转写了最前 {{minutes}} 分钟。"
 	},
+	"merge": {
+		"title": "合并视频",
+		"description": "将多个视频按下方顺序拼接为一个视频。",
+		"toolBarButton": "合并",
+		"addFiles": "添加视频…",
+		"emptyHint": "至少添加两个视频才能合并",
+		"probing": "正在读取视频信息…",
+		"probeFailed": "无法读取该文件（格式可能不受支持）",
+		"probeFailedHint": "有一个或多个视频无法读取，请移除后继续。",
+		"clipCount": "{{count}} 个视频",
+		"totalDuration": "总时长：",
+		"outputResolution": "输出：",
+		"moveUp": "上移",
+		"moveDown": "下移",
+		"remove": "移除",
+		"close": "关闭",
+		"mergeButton": "合并并导出",
+		"cancelMerge": "取消合并",
+		"phaseReading": "正在读取文件…",
+		"phaseAnalyzing": "正在分析视频…",
+		"phaseMerging": "正在合并视频…",
+		"phaseMergingClip": "正在合并 {{index}}/{{count}}：{{name}}",
+		"phaseFinalizing": "正在生成视频…",
+		"modeRemux": "快速合并（不重新编码）",
+		"modeTranscode": "重新编码以兼容格式",
+		"successTitle": "合并完成",
+		"successMessage": "视频已合并为一个文件",
+		"showInFolder": "在文件夹中显示",
+		"openInEditor": "在编辑器中打开",
+		"mergeSucceeded": "视频合并成功",
+		"mergeFailed": "视频合并失败",
+		"mergeFailedWithError": "视频合并失败：{{error}}",
+		"dropOverlay": "松开鼠标即可添加视频",
+		"emptyDropHint": "或将视频文件拖拽到此处",
+		"dropUnsupported": "拖入的内容中没有支持的视频文件"
+	},
 	"emptyState": {
 		"title": "未打开任何项目",
 		"description": "导入视频开始编辑，或加载已有的 OpenScreen 项目。",
@@ -76,7 +112,8 @@
 			"unsupportedFormatMessage": "此处只能拖放 .openscreen 项目文件。要导入视频，请使用\"导入视频文件...\"按钮。",
 			"couldNotOpenTitle": "无法打开文件",
 			"couldNotOpenMessage": "无法打开项目文件。它引用的视频可能已被移动或删除。"
-		}
+		},
+		"mergeVideosButton": "合并多个视频…"
 	},
 	"sessionsSidebar": {
 		"toggle": "切换录像列表",

@@ -197,7 +197,23 @@ interface Window {
 			message?: string;
 			error?: string;
 		}>;
-		openVideoFilePicker: () => Promise<{ success: boolean; path?: string; canceled?: boolean }>;
+		openVideoFilePicker: (options?: { multiple?: boolean }) => Promise<{
+			success: boolean;
+			path?: string;
+			/** All approved paths when opened with `{ multiple: true }` */
+			paths?: string[];
+			canceled?: boolean;
+			message?: string;
+			error?: string;
+		}>;
+		/** Approves non-dialog video paths (e.g. drag & drop) for later reads. */
+		approveVideoFilePaths: (filePaths: string[]) => Promise<{
+			success: boolean;
+			approved?: string[];
+			rejected?: string[];
+			message?: string;
+			error?: string;
+		}>;
 		setCurrentVideoPath: (path: string) => Promise<{ success: boolean }>;
 		setCurrentRecordingSession: (
 			session: import("../src/lib/recordingSession").RecordingSession | null,

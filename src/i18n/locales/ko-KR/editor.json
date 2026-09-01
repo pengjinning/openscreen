@@ -63,6 +63,42 @@
 		"failed": "자막을 생성할 수 없습니다.",
 		"truncated": "처음 {{minutes}}분만 전사되었습니다."
 	},
+	"merge": {
+		"title": "동영상 병합",
+		"description": "여러 동영상을 아래 순서대로 하나로 합칩니다.",
+		"toolBarButton": "병합",
+		"addFiles": "동영상 추가…",
+		"emptyHint": "병합하려면 동영상을 두 개 이상 추가하세요",
+		"probing": "동영상 정보 읽는 중…",
+		"probeFailed": "이 파일을 읽을 수 없습니다(지원되지 않는 형식일 수 있음)",
+		"probeFailedHint": "읽을 수 없는 동영상이 있습니다. 계속하려면 제거하세요.",
+		"clipCount": "동영상 {{count}}개",
+		"totalDuration": "총 길이:",
+		"outputResolution": "출력:",
+		"moveUp": "위로 이동",
+		"moveDown": "아래로 이동",
+		"remove": "제거",
+		"close": "닫기",
+		"mergeButton": "병합 후 내보내기",
+		"cancelMerge": "병합 취소",
+		"phaseReading": "파일 읽는 중…",
+		"phaseAnalyzing": "동영상 분석 중…",
+		"phaseMerging": "동영상 병합 중…",
+		"phaseMergingClip": "병합 중 {{index}}/{{count}}: {{name}}",
+		"phaseFinalizing": "동영상 생성 중…",
+		"modeRemux": "빠른 병합(재인코딩 없음)",
+		"modeTranscode": "호환성을 위해 재인코딩",
+		"successTitle": "병합 완료",
+		"successMessage": "동영상이 하나의 파일로 병합되었습니다",
+		"showInFolder": "폴더에서 보기",
+		"openInEditor": "편집기에서 열기",
+		"mergeSucceeded": "동영상 병합 완료",
+		"mergeFailed": "동영상을 병합하지 못했습니다",
+		"mergeFailedWithError": "동영상을 병합하지 못했습니다: {{error}}",
+		"dropOverlay": "놓아서 동영상 추가",
+		"emptyDropHint": "또는 동영상 파일을 여기로 끌어다 놓으세요",
+		"dropUnsupported": "놓은 항목에서 지원되는 동영상을 찾을 수 없습니다"
+	},
 	"emptyState": {
 		"title": "열린 프로젝트 없음",
 		"description": "동영상을 가져와 편집을 시작하거나 기존 OpenScreen 프로젝트를 불러오세요.",
@@ -76,7 +112,8 @@
 			"unsupportedFormatMessage": ".openscreen 프로젝트 파일만 여기에 드롭할 수 있습니다. 동영상을 가져오려면 \"동영상 파일 가져오기...\" 버튼을 사용하세요.",
 			"couldNotOpenTitle": "파일을 열 수 없음",
 			"couldNotOpenMessage": "프로젝트 파일을 열 수 없습니다. 참조된 동영상이 이동되었거나 삭제되었을 수 있습니다."
-		}
+		},
+		"mergeVideosButton": "여러 동영상 병합…"
 	},
 	"sessionsSidebar": {
 		"toggle": "녹화 목록 전환",

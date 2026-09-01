@@ -61,6 +61,9 @@ const ALLOWED_IMPORT_VIDEO_EXTENSIONS = new Set([
 	".flv",
 	".ts",
 ]);
+const ALLOWED_IMPORT_VIDEO_EXTENSIONS_LIST = [...ALLOWED_IMPORT_VIDEO_EXTENSIONS].map((ext) =>
+	ext.slice(1),
+);
 const PREVIEW_AUDIO_DIR = path.join(app.getPath("userData"), "preview-audio");
 const nativeMacCaptureEvents = new EventEmitter();
 
@@ -2624,8 +2627,12 @@ export function registerIpcHandlers(
 		}
 	});
 
-	ipcMain.handle("open-video-file-picker", async () => {
+	ipcMain.handle("open-video-file-picker", async (_event, options?: { multiple?: boolean }) => {
 		try {
+			const multiple = options?.multiple === true;
+			const properties: ("openFile" | "multiSelections")[] = multiple
+				? ["openFile", "multiSelections"]
+				: ["openFile"];
 			const dialogOptions = buildDialogOptions(
 				{
 					title: mainT("dialogs", "fileDialogs.selectVideo"),
@@ -2633,11 +2640,11 @@ export function registerIpcHandlers(
 					filters: [
 						{
 							name: mainT("dialogs", "fileDialogs.videoFiles"),
-							extensions: ["webm", "mp4", "mov", "avi", "mkv", "m4v", "wmv", "flv", "ts"],
+							extensions: ALLOWED_IMPORT_VIDEO_EXTENSIONS_LIST,
 						},
 						{ name: mainT("dialogs", "fileDialogs.allFiles"), extensions: ["*"] },
 					],
-					properties: ["openFile"],
+					properties,
 				},
 				getMainWindow(),
 			);
@@ -2647,24 +2654,63 @@ export function registerIpcHandlers(
 				return { success: false, canceled: true };
 			}
 
-			const normalizedPath = await approveReadableVideoPath(result.filePaths[0]);
-			if (!normalizedPath) {
-				return {
-					success: false,
-					message: "Selected file is not a supported readable video file",
-				};
+			// Every selected path must pass the readable-video approval check so the
+			// renderer can read them back via `read-binary-file`.
+			const normalizedPaths: string[] = [];
+			for (const filePath of result.filePaths) {
+				const normalizedPath = await approveReadableVideoPath(filePath);
+				if (!normalizedPath) {
+					return {
+						success: false,
+						message: "Selected file is not a supported readable video file",
+					};
+				}
+				normalizedPaths.push(normalizedPath);
 			}
 
 			currentProjectPath = null;
 			return {
 				success: true,
-				path: normalizedPath,
+				path: normalizedPaths[0],
+				paths: multiple ? normalizedPaths : undefined,
 			};
 		} catch (error) {
 			console.error("Failed to open file picker:", error);
 			return {
 				success: false,
 				message: "Failed to open file picker",
+				error: String(error),
+			};
+		}
+	});
+
+	// Approves video paths that were not picked through a native dialog, e.g.
+	// files dragged & dropped onto the merge dialog. Each path goes through the
+	// same readable-video approval check (extension allowlist + readable file),
+	// so arbitrary locations still can't be green-lit by the renderer alone.
+	ipcMain.handle("approve-video-file-paths", async (_, filePaths: string[]) => {
+		try {
+			if (!Array.isArray(filePaths) || filePaths.some((p) => typeof p !== "string")) {
+				return { success: false, message: "Invalid paths" };
+			}
+
+			const approved: string[] = [];
+			const rejected: string[] = [];
+			for (const filePath of filePaths) {
+				const normalizedPath = await approveReadableVideoPath(filePath);
+				if (normalizedPath) {
+					approved.push(normalizedPath);
+				} else {
+					rejected.push(path.resolve(filePath));
+				}
+			}
+
+			return { success: true, approved, rejected };
+		} catch (error) {
+			console.error("Failed to approve video file paths:", error);
+			return {
+				success: false,
+				message: "Failed to approve video file paths",
 				error: String(error),
 			};
 		}

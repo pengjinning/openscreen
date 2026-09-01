@@ -63,6 +63,42 @@
 		"failed": "No se pudieron generar los subtítulos.",
 		"truncated": "Solo se transcribieron los primeros {{minutes}} minutos."
 	},
+	"merge": {
+		"title": "Combinar vídeos",
+		"description": "Combina varios vídeos en uno, en el orden indicado abajo.",
+		"toolBarButton": "Combinar",
+		"addFiles": "Añadir vídeos…",
+		"emptyHint": "Añade al menos dos vídeos para combinarlos",
+		"probing": "Leyendo información del vídeo…",
+		"probeFailed": "No se pudo leer este archivo (¿formato no compatible?)",
+		"probeFailedHint": "No se pudieron leer uno o más vídeos. Elimínalos para continuar.",
+		"clipCount": "{{count}} vídeos",
+		"totalDuration": "Total:",
+		"outputResolution": "Salida:",
+		"moveUp": "Subir",
+		"moveDown": "Bajar",
+		"remove": "Quitar",
+		"close": "Cerrar",
+		"mergeButton": "Combinar y exportar",
+		"cancelMerge": "Cancelar combinación",
+		"phaseReading": "Leyendo archivos…",
+		"phaseAnalyzing": "Analizando vídeos…",
+		"phaseMerging": "Combinando vídeos…",
+		"phaseMergingClip": "Combinando {{index}}/{{count}}: {{name}}",
+		"phaseFinalizing": "Generando vídeo…",
+		"modeRemux": "Combinación rápida (sin recodificar)",
+		"modeTranscode": "Recodificando por compatibilidad",
+		"successTitle": "Combinación completada",
+		"successMessage": "Vídeos combinados en un solo archivo",
+		"showInFolder": "Mostrar en carpeta",
+		"openInEditor": "Abrir en el editor",
+		"mergeSucceeded": "Vídeos combinados correctamente",
+		"mergeFailed": "No se pudieron combinar los vídeos",
+		"mergeFailedWithError": "No se pudieron combinar los vídeos: {{error}}",
+		"dropOverlay": "Suelta los vídeos para añadirlos",
+		"emptyDropHint": "o arrastra y suelta archivos de vídeo aquí",
+		"dropUnsupported": "No se encontraron vídeos compatibles en los elementos soltados"
+	},
 	"emptyState": {
 		"title": "No hay proyecto abierto",
 		"description": "Importa un video para empezar a editar o carga un proyecto de OpenScreen existente.",
@@ -76,7 +112,8 @@
 			"unsupportedFormatMessage": "Solo se pueden soltar aquí archivos de proyecto .openscreen. Para importar un video, usa el botón \"Importar archivo de video...\" en su lugar.",
 			"couldNotOpenTitle": "No se pudo abrir el archivo",
 			"couldNotOpenMessage": "No se pudo abrir el archivo de proyecto. El video al que hace referencia puede haber sido movido o eliminado."
-		}
+		},
+		"mergeVideosButton": "Combinar vídeos…"
 	},
 	"sessionsSidebar": {
 		"toggle": "Alternar lista de grabaciones",

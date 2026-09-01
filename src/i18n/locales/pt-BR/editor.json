@@ -6,6 +6,7 @@
 		"confirm": "Confirmar"
 	},
 	"loadingVideo": "Carregando vídeo...",
+	"loadingEditor": "Carregando o editor...",
 	"errors": {
 		"noVideoLoaded": "Nenhum vídeo carregado",
 		"videoNotReady": "Vídeo não está pronto",
@@ -68,5 +69,57 @@
 		"refresh": "Atualizar",
 		"reveal": "Mostrar na pasta",
 		"webcam": "Webcam"
+	},
+	"merge": {
+		"title": "Combinar vídeos",
+		"description": "Combine vários vídeos em um só, na ordem indicada abaixo.",
+		"toolBarButton": "Combinar",
+		"addFiles": "Adicionar vídeos…",
+		"emptyHint": "Adicione pelo menos dois vídeos para combiná-los",
+		"probing": "Lendo informações do vídeo…",
+		"probeFailed": "Não foi possível ler este arquivo (formato sem suporte?)",
+		"probeFailedHint": "Um ou mais vídeos não puderam ser lidos. Remova-os para continuar.",
+		"clipCount": "{{count}} vídeos",
+		"totalDuration": "Total:",
+		"outputResolution": "Saída:",
+		"moveUp": "Mover para cima",
+		"moveDown": "Mover para baixo",
+		"remove": "Remover",
+		"close": "Fechar",
+		"mergeButton": "Combinar e exportar",
+		"cancelMerge": "Cancelar combinação",
+		"phaseReading": "Lendo arquivos…",
+		"phaseAnalyzing": "Analisando vídeos…",
+		"phaseMerging": "Combinando vídeos…",
+		"phaseMergingClip": "Combinando {{index}}/{{count}}: {{name}}",
+		"phaseFinalizing": "Gerando vídeo…",
+		"modeRemux": "Combinação rápida (sem recodificação)",
+		"modeTranscode": "Recodificando para compatibilidade",
+		"successTitle": "Combinação concluída",
+		"successMessage": "Vídeos combinados em um único arquivo",
+		"showInFolder": "Mostrar na pasta",
+		"openInEditor": "Abrir no editor",
+		"mergeSucceeded": "Vídeos combinados com sucesso",
+		"mergeFailed": "Falha ao combinar vídeos",
+		"mergeFailedWithError": "Falha ao combinar vídeos: {{error}}",
+		"dropOverlay": "Solte os vídeos para adicioná-los",
+		"emptyDropHint": "ou arraste e solte arquivos de vídeo aqui",
+		"dropUnsupported": "Nenhum vídeo compatível foi encontrado nos itens soltos"
+	},
+	"emptyState": {
+		"title": "Nenhum projeto aberto",
+		"description": "Importe um vídeo para começar a editar ou carregue um projeto OpenScreen existente.",
+		"importVideoButton": "Importar arquivo de vídeo…",
+		"loadProjectButton": "Carregar projeto…",
+		"supportedFormats": "Formatos suportados: MP4, MOV, WebM, MKV, AVI, M4V, WMV",
+		"dragDropHint": "ou arraste e solte um arquivo de projeto .openscreen aqui",
+		"dropOverlay": "Solte o arquivo de projeto aqui para abrir",
+		"dropErrors": {
+			"unsupportedFormatTitle": "Formato não suportado",
+			"unsupportedFormatMessage": "Apenas arquivos de projeto .openscreen podem ser soltos aqui. Para importar um vídeo, use o botão \"Importar arquivo de vídeo…\" nesta tela.",
+			"couldNotOpenTitle": "Não foi possível abrir o arquivo",
+			"couldNotOpenMessage": "Não foi possível abrir o arquivo de projeto. O vídeo referenciado pode ter sido movido ou excluído."
+		},
+		"mergeVideosButton": "Combinar vídeos…"
 	}
 }

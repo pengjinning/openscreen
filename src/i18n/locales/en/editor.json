@@ -63,6 +63,42 @@
 		"failed": "Could not generate captions.",
 		"truncated": "Only the first {{minutes}} minutes were transcribed."
 	},
+	"merge": {
+		"title": "Merge Videos",
+		"description": "Combine multiple videos into one, arranged in the order below.",
+		"toolBarButton": "Merge",
+		"addFiles": "Add videos…",
+		"emptyHint": "Add at least two videos to merge them into one",
+		"probing": "Reading video info…",
+		"probeFailed": "Could not read this file (unsupported format?)",
+		"probeFailedHint": "One or more videos could not be read. Remove them to continue.",
+		"clipCount": "{{count}} videos",
+		"totalDuration": "Total:",
+		"outputResolution": "Output:",
+		"moveUp": "Move up",
+		"moveDown": "Move down",
+		"remove": "Remove",
+		"close": "Close",
+		"mergeButton": "Merge & Export",
+		"cancelMerge": "Cancel merge",
+		"phaseReading": "Reading files…",
+		"phaseAnalyzing": "Analyzing videos…",
+		"phaseMerging": "Merging videos…",
+		"phaseMergingClip": "Merging {{index}}/{{count}}: {{name}}",
+		"phaseFinalizing": "Finalizing video…",
+		"modeRemux": "Fast merge (no re-encoding)",
+		"modeTranscode": "Re-encoding for compatibility",
+		"successTitle": "Merge Complete",
+		"successMessage": "Videos merged into one file",
+		"showInFolder": "Show in folder",
+		"openInEditor": "Open in editor",
+		"mergeSucceeded": "Videos merged successfully",
+		"mergeFailed": "Failed to merge videos",
+		"mergeFailedWithError": "Failed to merge videos: {{error}}",
+		"dropOverlay": "Drop videos to add them",
+		"emptyDropHint": "or drag & drop video files here",
+		"dropUnsupported": "No supported video files were found in the dropped items"
+	},
 	"emptyState": {
 		"title": "No project open",
 		"description": "Import a video to start editing, or load an existing OpenScreen project.",
@@ -76,7 +112,8 @@
 			"unsupportedFormatMessage": "Only .openscreen project files can be dropped here. To import a video file, use the \"Import Video File…\" button on this screen.",
 			"couldNotOpenTitle": "Could Not Open File",
 			"couldNotOpenMessage": "The project file could not be opened. The video it references may have been moved or deleted."
-		}
+		},
+		"mergeVideosButton": "Merge Videos…"
 	},
 	"sessionsSidebar": {
 		"toggle": "Toggle recordings list",

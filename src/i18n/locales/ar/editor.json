@@ -63,6 +63,42 @@
 		"failed": "تعذّر توليد التسميات.",
 		"truncated": "تم نسخ الدقائق الأولى فقط: {{minutes}} دقيقة."
 	},
+	"merge": {
+		"title": "دمج مقاطع الفيديو",
+		"description": "ادمج عدة مقاطع فيديو في مقطع واحد بالترتيب الموضح أدناه.",
+		"toolBarButton": "دمج",
+		"addFiles": "إضافة مقاطع…",
+		"emptyHint": "أضف مقطعين على الأقل للدمج",
+		"probing": "جارٍ قراءة معلومات الفيديو…",
+		"probeFailed": "تعذّرت قراءة هذا الملف (تنسيق غير مدعوم؟)",
+		"probeFailedHint": "تعذّرت قراءة مقطع أو أكثر. أزِلها للمتابعة.",
+		"clipCount": "{{count}} مقطعًا",
+		"totalDuration": "الإجمالي:",
+		"outputResolution": "الإخراج:",
+		"moveUp": "تحريك لأعلى",
+		"moveDown": "تحريك لأسفل",
+		"remove": "إزالة",
+		"close": "إغلاق",
+		"mergeButton": "دمج وتصدير",
+		"cancelMerge": "إلغاء الدمج",
+		"phaseReading": "جارٍ قراءة الملفات…",
+		"phaseAnalyzing": "جارٍ تحليل مقاطع الفيديو…",
+		"phaseMerging": "جارٍ دمج مقاطع الفيديو…",
+		"phaseMergingClip": "جارٍ الدمج {{index}}/{{count}}: {{name}}",
+		"phaseFinalizing": "جارٍ إنشاء الفيديو…",
+		"modeRemux": "دمج سريع (بدون إعادة ترميز)",
+		"modeTranscode": "إعادة ترميز للتوافق",
+		"successTitle": "اكتمل الدمج",
+		"successMessage": "تم دمج مقاطع الفيديو في ملف واحد",
+		"showInFolder": "إظهار في المجلد",
+		"openInEditor": "فتح في المحرر",
+		"mergeSucceeded": "تم دمج مقاطع الفيديو بنجاح",
+		"mergeFailed": "فشل دمج مقاطع الفيديو",
+		"mergeFailedWithError": "فشل دمج مقاطع الفيديو: {{error}}",
+		"dropOverlay": "أفلِت مقاطع الفيديو لإضافتها",
+		"emptyDropHint": "أو اسحب وأفلت ملفات الفيديو هنا",
+		"dropUnsupported": "لم يتم العثور على مقاطع فيديو مدعومة في العناصر المفلوتة"
+	},
 	"emptyState": {
 		"title": "لا يوجد مشروع مفتوح",
 		"description": "استورد مقطع فيديو للبدء في التحرير، أو حمّل مشروع OpenScreen موجود.",
@@ -76,7 +112,8 @@
 			"unsupportedFormatMessage": "يمكن إسقاط ملفات مشروع .openscreen فقط هنا. لاستيراد مقطع فيديو، استخدم زر \"استيراد ملف فيديو...\" بدلاً من ذلك.",
 			"couldNotOpenTitle": "تعذّر فتح الملف",
 			"couldNotOpenMessage": "تعذّر فتح ملف المشروع. ربما تم نقل الفيديو المرجعي أو حذفه."
-		}
+		},
+		"mergeVideosButton": "دمج مقاطع الفيديو…"
 	},
 	"sessionsSidebar": {
 		"toggle": "إظهار/إخفاء قائمة التسجيلات",

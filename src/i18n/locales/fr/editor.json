@@ -63,6 +63,42 @@
 		"failed": "Impossible de générer les sous-titres.",
 		"truncated": "Seules les {{minutes}} premières minutes ont été transcrites."
 	},
+	"merge": {
+		"title": "Fusionner des vidéos",
+		"description": "Combine plusieurs vidéos en une seule, dans l'ordre ci-dessous.",
+		"toolBarButton": "Fusionner",
+		"addFiles": "Ajouter des vidéos…",
+		"emptyHint": "Ajoutez au moins deux vidéos pour les fusionner",
+		"probing": "Lecture des infos de la vidéo…",
+		"probeFailed": "Impossible de lire ce fichier (format non pris en charge ?)",
+		"probeFailedHint": "Une ou plusieurs vidéos sont illisibles. Supprimez-les pour continuer.",
+		"clipCount": "{{count}} vidéos",
+		"totalDuration": "Total :",
+		"outputResolution": "Sortie :",
+		"moveUp": "Monter",
+		"moveDown": "Descendre",
+		"remove": "Retirer",
+		"close": "Fermer",
+		"mergeButton": "Fusionner et exporter",
+		"cancelMerge": "Annuler la fusion",
+		"phaseReading": "Lecture des fichiers…",
+		"phaseAnalyzing": "Analyse des vidéos…",
+		"phaseMerging": "Fusion des vidéos…",
+		"phaseMergingClip": "Fusion {{index}}/{{count}} : {{name}}",
+		"phaseFinalizing": "Génération de la vidéo…",
+		"modeRemux": "Fusion rapide (sans réencodage)",
+		"modeTranscode": "Réencodage pour compatibilité",
+		"successTitle": "Fusion terminée",
+		"successMessage": "Vidéos fusionnées en un seul fichier",
+		"showInFolder": "Afficher dans le dossier",
+		"openInEditor": "Ouvrir dans l'éditeur",
+		"mergeSucceeded": "Vidéos fusionnées avec succès",
+		"mergeFailed": "Échec de la fusion des vidéos",
+		"mergeFailedWithError": "Échec de la fusion des vidéos : {{error}}",
+		"dropOverlay": "Déposez les vidéos pour les ajouter",
+		"emptyDropHint": "ou glissez-déposez des fichiers vidéo ici",
+		"dropUnsupported": "Aucune vidéo prise en charge trouvée dans les éléments déposés"
+	},
 	"emptyState": {
 		"title": "Aucun projet ouvert",
 		"description": "Importez une vidéo pour commencer à éditer, ou chargez un projet OpenScreen existant.",
@@ -76,7 +112,8 @@
 			"unsupportedFormatMessage": "Seuls les fichiers .openscreen peuvent être déposés ici. Pour importer une vidéo, utilisez plutôt le bouton \"Importer un fichier vidéo...\".",
 			"couldNotOpenTitle": "Impossible d'ouvrir le fichier",
 			"couldNotOpenMessage": "Le fichier de projet n'a pas pu être ouvert. La vidéo qu'il référence a peut-être été déplacée ou supprimée."
-		}
+		},
+		"mergeVideosButton": "Fusionner des vidéos…"
 	},
 	"sessionsSidebar": {
 		"toggle": "Afficher/masquer la liste des enregistrements",

@@ -1,4 +1,4 @@
-import { AlertCircle, Film, FolderOpen, Upload, X } from "lucide-react";
+import { AlertCircle, Combine, Film, FolderOpen, Upload, X } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useScopedT } from "@/contexts/I18nContext";
@@ -9,11 +9,17 @@ interface EditorEmptyStateProps {
 	onVideoImported: (videoPath: string) => void;
 	/** Called with the loaded project data; handles both button click and drag-drop */
 	onProjectOpened: (project: unknown, path: string | null) => void;
+	/** Opens the multi-video merge workflow */
+	onMergeVideos?: () => void;
 }
 
 type DropError = "unsupported-format" | "load-failed" | null;
 
-export function EditorEmptyState({ onVideoImported, onProjectOpened }: EditorEmptyStateProps) {
+export function EditorEmptyState({
+	onVideoImported,
+	onProjectOpened,
+	onMergeVideos,
+}: EditorEmptyStateProps) {
 	const te = useScopedT("editor");
 	const tc = useScopedT("common");
 	const [isDraggingOver, setIsDraggingOver] = useState(false);
@@ -194,6 +200,16 @@ export function EditorEmptyState({ onVideoImported, onProjectOpened }: EditorEmp
 						<FolderOpen className="h-4 w-4" />
 						{te("emptyState.loadProjectButton")}
 					</button>
+					{onMergeVideos && (
+						<button
+							type="button"
+							onClick={onMergeVideos}
+							className="flex items-center justify-center gap-2.5 w-full px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 font-medium text-sm transition-colors outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090b]"
+						>
+							<Combine className="h-4 w-4" />
+							{te("emptyState.mergeVideosButton")}
+						</button>
+					)}
 				</div>
 
 				<div className="flex flex-col items-center gap-2">

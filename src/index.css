@@ -85,9 +85,9 @@
 	}
 
 	.editor-main-deck {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) clamp(286px, 20vw, 352px);
-		gap: 14px;
+		/* Layout is driven by a horizontal PanelGroup (see VideoEditor); the
+		 * class remains for background continuity. */
+		display: flex;
 		min-height: 0;
 	}
 
@@ -130,6 +130,24 @@
 	}
 
 	.editor-resize-handle:hover {
+		background: rgba(255, 255, 255, 0.035);
+		opacity: 1;
+	}
+
+	.editor-resize-handle-vertical {
+		width: 12px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 999px;
+		transition:
+			background-color 160ms ease,
+			opacity 160ms ease;
+		opacity: 0.8;
+		cursor: col-resize;
+	}
+
+	.editor-resize-handle-vertical:hover {
 		background: rgba(255, 255, 255, 0.035);
 		opacity: 1;
 	}
@@ -186,19 +204,9 @@
 			gap: 10px;
 			padding: 10px;
 		}
-
-		.editor-main-deck {
-			grid-template-columns: minmax(0, 1fr) 286px;
-			gap: 10px;
-		}
 	}
 
 	@media (max-width: 1020px) {
-		.editor-main-deck {
-			grid-template-columns: minmax(0, 1fr);
-			grid-template-rows: minmax(0, 1fr) 180px;
-		}
-
 		.editor-settings-rail {
 			min-height: 180px;
 		}
@@ -207,11 +215,6 @@
 	@media (min-width: 1900px) {
 		.editor-workspace {
 			padding: 18px;
-			gap: 18px;
-		}
-
-		.editor-main-deck {
-			grid-template-columns: minmax(0, 1fr) 372px;
 			gap: 18px;
 		}
 	}

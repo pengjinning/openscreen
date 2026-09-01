@@ -66,7 +66,8 @@ export function RecordingSessionsSidebar({
 	}, [loadSessions, refreshToken]);
 
 	return (
-		<aside className="w-60 flex-shrink-0 min-h-0 flex flex-col border-r border-white/[0.07] bg-[#0b0c0e]">
+		// Width is controlled by the resizable Panel this sidebar lives in.
+		<aside className="w-full min-h-0 flex flex-col border-r border-white/[0.07] bg-[#0b0c0e]">
 			<header className="h-10 flex-shrink-0 flex items-center justify-between pl-3 pr-2 border-b border-white/[0.07]">
 				<span className="text-[11px] font-semibold uppercase tracking-wider text-white/40">
 					{t("sessionsSidebar.title")}

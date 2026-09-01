@@ -6,6 +6,7 @@
 		"confirm": "Conferma"
 	},
 	"loadingVideo": "Caricamento video...",
+	"loadingEditor": "Caricamento dell'editor...",
 	"errors": {
 		"noVideoLoaded": "Nessun video caricato",
 		"videoNotReady": "Video non pronto",
@@ -69,5 +70,57 @@
 		"refresh": "Aggiorna",
 		"reveal": "Mostra nella cartella",
 		"webcam": "Webcam"
+	},
+	"merge": {
+		"title": "Unisci video",
+		"description": "Unisci più video in uno solo, nell'ordine indicato sotto.",
+		"toolBarButton": "Unisci",
+		"addFiles": "Aggiungi video…",
+		"emptyHint": "Aggiungi almeno due video per unirli",
+		"probing": "Lettura informazioni video…",
+		"probeFailed": "Impossibile leggere questo file (formato non supportato?)",
+		"probeFailedHint": "Uno o più video non sono leggibili. Rimuovili per continuare.",
+		"clipCount": "{{count}} video",
+		"totalDuration": "Totale:",
+		"outputResolution": "Uscita:",
+		"moveUp": "Sposta su",
+		"moveDown": "Sposta giù",
+		"remove": "Rimuovi",
+		"close": "Chiudi",
+		"mergeButton": "Unisci ed esporta",
+		"cancelMerge": "Annulla unione",
+		"phaseReading": "Lettura dei file…",
+		"phaseAnalyzing": "Analisi dei video…",
+		"phaseMerging": "Unione dei video…",
+		"phaseMergingClip": "Unione {{index}}/{{count}}: {{name}}",
+		"phaseFinalizing": "Generazione del video…",
+		"modeRemux": "Unione rapida (senza ricodifica)",
+		"modeTranscode": "Ricodifica per compatibilità",
+		"successTitle": "Unione completata",
+		"successMessage": "Video uniti in un unico file",
+		"showInFolder": "Mostra nella cartella",
+		"openInEditor": "Apri nell'editor",
+		"mergeSucceeded": "Video uniti correttamente",
+		"mergeFailed": "Impossibile unire i video",
+		"mergeFailedWithError": "Impossibile unire i video: {{error}}",
+		"dropOverlay": "Trascina i video per aggiungerli",
+		"emptyDropHint": "oppure trascina e rilascia qui i file video",
+		"dropUnsupported": "Nessun video supportato trovato negli elementi rilasciati"
+	},
+	"emptyState": {
+		"title": "Nessun progetto aperto",
+		"description": "Importa un video per iniziare a modificare o carica un progetto OpenScreen esistente.",
+		"importVideoButton": "Importa file video…",
+		"loadProjectButton": "Carica progetto…",
+		"supportedFormats": "Formati supportati: MP4, MOV, WebM, MKV, AVI, M4V, WMV",
+		"dragDropHint": "oppure trascina qui un file di progetto .openscreen",
+		"dropOverlay": "Trascina qui il file di progetto per aprirlo",
+		"dropErrors": {
+			"unsupportedFormatTitle": "Formato non supportato",
+			"unsupportedFormatMessage": "Qui si possono rilasciare solo file di progetto .openscreen. Per importare un video, usa il pulsante \"Importa file video…\" in questa schermata.",
+			"couldNotOpenTitle": "Impossibile aprire il file",
+			"couldNotOpenMessage": "Impossibile aprire il file di progetto. Il video a cui fa riferimento potrebbe essere stato spostato o eliminato."
+		},
+		"mergeVideosButton": "Unisci video…"
 	}
 }
